@@ -1,0 +1,154 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>qml;cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>qrc;rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+    </Filter>
+    <Filter Include="Translation Files">
+      <UniqueIdentifier>{639EADAA-A684-42e4-A9AD-28FC9BCB8F7C}</UniqueIdentifier>
+      <Extensions>ts</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Helpers">
+      <UniqueIdentifier>{089ec8bb-620b-4a34-b7bb-be2d2777de42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Helpers">
+      <UniqueIdentifier>{84b576d8-e890-4253-8f12-6ba27408568a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Helpers\pbPlots">
+      <UniqueIdentifier>{c1429cac-4e23-4a84-83be-33d04511f2e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Models">
+      <UniqueIdentifier>{4f03fcb5-ef4d-45b9-82fc-c8edf838a120}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\MOSFET">
+      <UniqueIdentifier>{05d2cb4e-9055-44a6-b269-68bbe88caa45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Simulators">
+      <UniqueIdentifier>{8c17b451-621d-41f9-8df9-488b704cd8ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Parameters">
+      <UniqueIdentifier>{57515341-8697-46d3-bdd2-27a20e86fb27}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <QtRcc Include="SemiconductorDeviceSimulatorDTA.qrc">
+      <Filter>Resource Files</Filter>
+    </QtRcc>
+    <QtUic Include="SemiconductorDeviceSimulatorDTA.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <None Include="SemiconductorDeviceSimulator-DTA.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <ResourceCompile Include="SemiconductorDeviceSimulator-DTA.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="SemiconductorDeviceSimulatorDTA.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Helpers\Support\Plot\pbPlots.cpp">
+      <Filter>Header Files\Helpers\pbPlots</Filter>
+    </ClCompile>
+    <ClCompile Include="Helpers\Support\Plot\supportLib.cpp">
+      <Filter>Header Files\Helpers\pbPlots</Filter>
+    </ClCompile>
+    <ClCompile Include="Helpers\Support\DataReader.cpp">
+      <Filter>Header Files\Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="Helpers\Support\STRING_TO_WIDECHAR.cpp">
+      <Filter>Header Files\Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="Helpers\Support\CompareCurves.cpp">
+      <Filter>Header Files\Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="Helpers\Support\DrawPlot.cpp">
+      <Filter>Header Files\Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="Helpers\Level1\Level1Calculation.cpp">
+      <Filter>Header Files\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="Helpers\Level2\Level2Calculation.cpp">
+      <Filter>Header Files\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="Helpers\MOSFET\MOSFET.cpp">
+      <Filter>Header Files\MOSFET</Filter>
+    </ClCompile>
+    <ClCompile Include="Helpers\Simulations\OutputSimulation.cpp">
+      <Filter>Header Files\Simulators</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Headers\Level1\Level1.txt" />
+    <Text Include="Headers\Level2\Level2.txt" />
+    <Text Include="Helpers\Level1\Level1.txt">
+      <Filter>Header Files\Models</Filter>
+    </Text>
+    <Text Include="Helpers\Level2\Level2.txt">
+      <Filter>Header Files\Models</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="SemiconductorDeviceSimulatorDTA.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Helpers\Support\Plot\pbPlots.h">
+      <Filter>Header Files\Helpers\pbPlots</Filter>
+    </ClInclude>
+    <ClInclude Include="Helpers\Support\Plot\supportLib.h">
+      <Filter>Header Files\Helpers\pbPlots</Filter>
+    </ClInclude>
+    <ClInclude Include="Helpers\Support\DataReader.h">
+      <Filter>Header Files\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="Helpers\Support\json.hpp">
+      <Filter>Header Files\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="Helpers\Support\STRING_TO_WIDECHAR.h">
+      <Filter>Header Files\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="Helpers\Support\Timer.h">
+      <Filter>Header Files\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="Helpers\Support\CompareCurves.h">
+      <Filter>Header Files\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="Helpers\Support\DrawPlot.h">
+      <Filter>Header Files\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="Helpers\Level1\Level1Calculation.h">
+      <Filter>Header Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="Helpers\Level2\Level2Calculation.h">
+      <Filter>Header Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="Helpers\MOSFET\MOSFET.h">
+      <Filter>Header Files\MOSFET</Filter>
+    </ClInclude>
+    <ClInclude Include="Helpers\Simulations\OutputSimulation.h">
+      <Filter>Header Files\Simulators</Filter>
+    </ClInclude>
+    <ClInclude Include="Helpers\Parameters\Parameters.h">
+      <Filter>Header Files\Parameters</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

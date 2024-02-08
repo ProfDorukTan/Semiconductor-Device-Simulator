@@ -1,0 +1,22 @@
+[
+    {
+        "channelLength": 10.0,
+        "channelWidth": 10.0,
+        "cox": 0.0,
+        "lambda": -2147483648.0,
+        "mobility": 1000.0,
+        "name": "Doruk",
+        "type": 78,
+        "vt": 1.0
+    },
+    {
+        "channelLength": 10.0,
+        "channelWidth": 10.0,
+        "cox": 4e-06,
+        "lambda": -6.2774385622041925e+66,
+        "mobility": 1000.0,
+        "name": "Doruk2",
+        "type": 78,
+        "vt": 1.0
+    }
+]

@@ -1,0 +1,1 @@
+Level 1 Complexity uses Gradual Channel approximation without considering channel length modulation.

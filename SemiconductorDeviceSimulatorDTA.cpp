@@ -163,6 +163,49 @@ void SemiconductorDeviceSimulatorDTA::on_AddVgs_clicked() {
     ui->VgsList->addItem(VgsSTR);
 }
 
+
+
+// Simuation functions
+//This class is used to display images in a popup dialog - it is used to display the simulation results
+#include <QDialog>
+#include <QLabel>
+#include <QVBoxLayout>
+class ImagePopupDialog : public QDialog {
+public:
+    ImagePopupDialog(QWidget* parent = nullptr) : QDialog(parent) {
+        setWindowTitle("Simulation Result");
+        QVBoxLayout* layout = new QVBoxLayout(this);
+        imageLabel = new QLabel(this);
+        layout->addWidget(imageLabel);
+    }
+
+    void setImage(const QPixmap& pixmap) {
+        imageLabel->setPixmap(pixmap);
+        imageLabel->setScaledContents(true);
+        adjustSize();
+    }
+
+private:
+    QLabel* imageLabel;
+};
+
+//this class is used to find the latest image in a directory - it is used to display the latest simulation result
+#include <QDir>
+#include <QFileInfoList>
+QString findLatestImage(const QString& directoryPath) {
+    QDir directory(directoryPath);
+    directory.setFilter(QDir::Files | QDir::NoDotAndDotDot);
+    directory.setSorting(QDir::Time);
+
+    QFileInfoList fileList = directory.entryInfoList();
+    for (const QFileInfo& fileInfo : fileList) {
+        if (fileInfo.suffix().toLower() == "png") {
+            return fileInfo.absoluteFilePath();
+        }
+    }
+    return QString();
+}
+
 void SemiconductorDeviceSimulatorDTA::on_SimulateButton_clicked() {
     QListWidgetItem* selectedItem = ui->MosfetList_2->currentItem();
     // Check if an item is selected
@@ -208,7 +251,32 @@ void SemiconductorDeviceSimulatorDTA::on_SimulateButton_clicked() {
         output.GraphOutputCurve(level);
 
     }
+
+
+    // Specify the directory containing the images
+    QString imageDirectory = ".\\GRAPHS";
+
+    QString latestImage = findLatestImage(imageDirectory);
+    if (latestImage.isEmpty()) {
+        QMessageBox::warning(this, "Error", "No image found in the directory.");
+        return;
+    }
+
+    // Load the image from file
+    QPixmap image(latestImage);
+    if (image.isNull()) {
+        QMessageBox::warning(this, "Error", "Failed to load the image.");
+        return;
+    }
+
+    // Create the popup dialog
+    ImagePopupDialog* dialog = new ImagePopupDialog(this);
+    dialog->setImage(image);
+    dialog->exec();
+    delete dialog; // Ensure cleanup after the dialog is closed
+
 }
+
 #include <fstream>
 #include <QMessageBox>
 

@@ -1,7 +1,8 @@
 #include "SemiconductorDeviceSimulatorDTA.h"
 
-SemiconductorDeviceSimulatorDTA::SemiconductorDeviceSimulatorDTA(QWidget *parent)
+SemiconductorDeviceSimulatorDTA::SemiconductorDeviceSimulatorDTA(QWidget* parent)
     : QMainWindow(parent)
+    , ui(new Ui::SemiconductorDeviceSimulatorDTAClass())
 {
     ui->setupUi(this);
 

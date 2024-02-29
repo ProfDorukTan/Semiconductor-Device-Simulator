@@ -20,6 +20,9 @@ public:
     MOSFET();
     MOSFET(std::string name, char type, double vt, double mobility, double cox, double w, double l);
     MOSFET(std::string name, char type, double vt, double mobility, double cox, double w, double l, double lambda);
+    MOSFET(std::string name, char type, double mobility, double cox, double w, double l,
+        double metalWorkFunction, double semiconductorBandgap, double semiconductorElectronAffinity, double semiconductorDopingConcentration, double semiconductorPermittivity,
+        double oxideThickness, double oxidePermittivity, double oxideTrappedCharge);
 
     //Static methods for managing instances - For multiple objects
     static void addMOSFET(MOSFET* mosfet);
@@ -46,10 +49,27 @@ public:
     void setChannelLength(double channelLength);
     double getLambda() const;
     void setLambda(double lambda);
+    double getMetalWorkFunction() const;
+    void setMetalWorkFunction(double metalWorkFunction);
+    double getSemiconductorBandgap() const;
+    void setSemiconductorBandgap(double semiconductorBandgap);
+    double getSemiconductorElectronAffinity() const;
+    void setSemiconductorElectronAffinity(double semiconductorElectronAffinity);
+    double getSemiconductorDopingConcentration() const;
+    void setSemiconductorDopingConcentrationn(double dopingConcentration);
+    double getSemiconductorPermittivity() const;
+    void setSemiconductorPermittivity(double semiconductorPermittivity);
+    double getOxideThickness() const;
+    void setOxideThickness(double oxideThickness);
+    double getOxidePermittivity() const;
+    void setOxidePermittivity(double oxidePermittivity);
+    double getOxideTrappedCharge() const;
+    void setOxideTrappedCharge(double oxideTrappedCharge);
 
 private:
     // Static vector to store instances
     static std::vector<MOSFET*> mosfets;
+    //Minimum required parameters for level1 simulation
     std::string name;
     char type;
     double tempK;
@@ -58,7 +78,19 @@ private:
     double Cox;
     double ChannelWidth;
     double ChannelLength;
-    double Lambda;  //Channel Length Modulation
+
+    //Parameters for Vt calculation
+    double metalWorkFunction;
+    double semiconductorBandgap;
+    double semiconductorElectronAffinity;  
+    double semiconductorDopingConcentration;
+    double semiconductorPermittivity;
+    double oxideThickness;
+    double oxidePermittivity;
+    double oxideTrappedCharge;
+    
+    //Additional required parameters for level2 simulation
+    double Lambda;  //Channel length modulation parameter - empirical
 };
 
 

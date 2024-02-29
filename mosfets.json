@@ -1,21 +1,11 @@
 [
     {
-        "channelLength": 10.0,
-        "channelWidth": 10.0,
-        "cox": 0.0,
-        "lambda": -2147483648.0,
-        "mobility": 1000.0,
-        "name": "Doruk",
-        "type": 78,
-        "vt": 1.0
-    },
-    {
-        "channelLength": 10.0,
-        "channelWidth": 10.0,
-        "cox": 0.0,
-        "lambda": -2147483648.0,
-        "mobility": 1000.0,
-        "name": "Doruk2",
+        "channelLength": 1.0700000000000007,
+        "channelWidth": 1.7000000000000013,
+        "cox": 4e-08,
+        "lambda": 0.03,
+        "mobility": 800.0,
+        "name": "test - Level 2",
         "type": 78,
         "vt": 1.0
     }

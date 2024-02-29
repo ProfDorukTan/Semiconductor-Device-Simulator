@@ -11,58 +11,40 @@ OutputSimulation::OutputSimulation(MOSFET mosfet_par, double Vmin_var, double Vm
     for (auto vgs: params_Vgs) {
         Params_Vgs_Ids_[vgs] = std::vector<double>();
     }
+    /*
+    The following mapping will be used for the simulation data:
+        Vgs1 ->  Ids1, Ids2, Ids3, ...
+        Vgs2 ->  Ids1, Ids2, Ids3, ...
+        Vgs3 ->  Ids1, Ids2, Ids3, ...
+        ...
+    */
 }
 
-double OutputSimulation::getVmin() const {
-    return Vmin_;
-}
-double OutputSimulation::getVmax() const {
-    return Vmax_;
-}
-double OutputSimulation::getVstep() const {
-    return Vstep_;
-}
+//GETTER FUNCTIONS
 const std::unordered_map<double,std::vector<double>> &OutputSimulation::getParams_Vgs_Ids() const {
     return Params_Vgs_Ids_;
 }
 
+//SIMULATION FUNCTIONS
 void OutputSimulation::GenerateOutputCurve(int COMPLEXITY) {
-    double Vds;
-
-    Vds = Vmin_;
-    // Iterate starting from Vmin to Vmax to fill up Params_Vds
+    // Creating Vds values
+    double Vds = Vmin_;
     while (Vds <= Vmax_) {
         Params_Vds_.push_back(Vds);
         Vds += Vstep_;
     }
 
-
-    // Generate Ids values according to complexity value (1 or 2) and Params_Vds
+    // Generate Ids values according to complexity value
     switch(COMPLEXITY) {
         case 1:
-            // Iterate vgs values
-            for (const auto vgs_Ids_pair : Params_Vgs_Ids_)
-            {
-                auto vgs = vgs_Ids_pair.first;
-                // Iterate vds values
-                for (const auto vds : Params_Vds_)
-                {
-                    Params_Vgs_Ids_[vgs].push_back(level1_calc(vgs, vds, mosfet_));
-                }
-            }
+            level1_sweep(mosfet_, Params_Vgs_Ids_, Params_Vds_);
             break;
 
         case 2:
-            // Iterate vgs values
-            for (const auto vgs_Ids_pair : Params_Vgs_Ids_)
-            {
-                auto vgs = vgs_Ids_pair.first;
-                // Iterate vds values
-                for (const auto vds : Params_Vds_)
-                {
-                    Params_Vgs_Ids_[vgs].push_back(level2_calc(vgs, vds, mosfet_));
-                }
-            }
+            level2_sweep(mosfet_, Params_Vgs_Ids_, Params_Vds_);
+            break;
+
+        case 3:
             break;
 
         default:

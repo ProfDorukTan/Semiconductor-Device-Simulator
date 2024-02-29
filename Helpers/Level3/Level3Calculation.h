@@ -6,13 +6,10 @@
 #define MAIN_CPP_LEVEL1CALCULATION_H
 
 #include <cmath>
-#include <unordered_map>
-#include <vector>
 #include "../Support/DrawPlot.h"
 #include "../Parameters/Parameters.h"
 #include "../MOSFET/MOSFET.h"
 
-double level1_calc(MOSFET mosfet, double Vgs, double Vds);
-void level1_sweep(MOSFET mosfet , std::unordered_map<double , std::vector<double>>& Vgs_Ids_vector , std::vector<double> Vds_vector);
+double level3_calc(double Vgs, double Vds, MOSFET mosfet);
 
 #endif //MAIN_CPP_LEVEL1CALCULATION_H

@@ -94,6 +94,7 @@
     <QtMoc Include="SemiconductorDeviceSimulatorDTA.h" />
     <ClCompile Include="Helpers\Level1\Level1Calculation.cpp" />
     <ClCompile Include="Helpers\Level2\Level2Calculation.cpp" />
+    <ClCompile Include="Helpers\Level3\Level3Calculation.cpp" />
     <ClCompile Include="Helpers\MOSFET\MOSFET.cpp" />
     <ClCompile Include="Helpers\Simulations\OutputSimulation.cpp" />
     <ClCompile Include="Helpers\Support\CompareCurves.cpp" />
@@ -104,6 +105,7 @@
     <ClCompile Include="Helpers\Support\STRING_TO_WIDECHAR.cpp" />
     <ClCompile Include="SemiconductorDeviceSimulatorDTA.cpp" />
     <ClCompile Include="main.cpp" />
+    <None Include="mosfets.json" />
     <None Include="SemiconductorDeviceSimulator-DTA.ico" />
     <ResourceCompile Include="SemiconductorDeviceSimulator-DTA.rc" />
   </ItemGroup>
@@ -112,10 +114,12 @@
     <Text Include="Headers\Level2\Level2.txt" />
     <Text Include="Helpers\Level1\Level1.txt" />
     <Text Include="Helpers\Level2\Level2.txt" />
+    <Text Include="Helpers\Level3\Level3.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Helpers\Level1\Level1Calculation.h" />
     <ClInclude Include="Helpers\Level2\Level2Calculation.h" />
+    <ClInclude Include="Helpers\Level3\Level3Calculation.h" />
     <ClInclude Include="Helpers\MOSFET\MOSFET.h" />
     <ClInclude Include="Helpers\Parameters\Parameters.h" />
     <ClInclude Include="Helpers\Simulations\OutputSimulation.h" />

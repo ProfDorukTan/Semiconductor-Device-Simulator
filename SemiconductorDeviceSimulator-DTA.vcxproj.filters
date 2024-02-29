@@ -94,6 +94,9 @@
     <ClCompile Include="Helpers\Simulations\OutputSimulation.cpp">
       <Filter>Header Files\Simulators</Filter>
     </ClCompile>
+    <ClCompile Include="Helpers\Level3\Level3Calculation.cpp">
+      <Filter>Header Files\Models</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Headers\Level1\Level1.txt" />
@@ -102,6 +105,9 @@
       <Filter>Header Files\Models</Filter>
     </Text>
     <Text Include="Helpers\Level2\Level2.txt">
+      <Filter>Header Files\Models</Filter>
+    </Text>
+    <Text Include="Helpers\Level3\Level3.txt">
       <Filter>Header Files\Models</Filter>
     </Text>
   </ItemGroup>
@@ -150,5 +156,11 @@
     <ClInclude Include="Helpers\Parameters\Parameters.h">
       <Filter>Header Files\Parameters</Filter>
     </ClInclude>
+    <ClInclude Include="Helpers\Level3\Level3Calculation.h">
+      <Filter>Header Files\Models</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="mosfets.json" />
   </ItemGroup>
 </Project>

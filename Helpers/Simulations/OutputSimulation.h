@@ -11,6 +11,10 @@
 #include "../MOSFET/MOSFET.h"
 #include "../Level1/Level1Calculation.h"
 #include "../Level2/Level2Calculation.h"
+#include "../Level3/Level3Calculation.h"
+#include "../Level4/Level4Calculation.h"
+#include "../Level5/Level5Calculation.h"
+#include "../Level6/Level6Calculation.h"
 #include "../Support/STRING_TO_WIDECHAR.h"
 #include "../Support/Plot/supportLib.h"
 

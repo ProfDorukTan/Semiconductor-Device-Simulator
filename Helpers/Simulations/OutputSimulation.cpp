@@ -46,6 +46,7 @@ void OutputSimulation::GenerateOutputCurve(int COMPLEXITY) {
 
         case 3:
             break;
+            level3_sweep(mosfet_, Params_Vgs_Ids_, Params_Vds_);
 
         default:
             throw std::invalid_argument("Invalid Complexity Level");

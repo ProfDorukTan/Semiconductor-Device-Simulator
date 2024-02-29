@@ -3,20 +3,33 @@
 //
 
 #include "Level3Calculation.h"
-void Vth_calc(MOSFET mosfet) {
+double Vth_calc(MOSFET mosfet) {
     char type = mosfet.getType();
     double phi_m = mosfet.getMetalWorkFunction(), Eg_s = mosfet.getSemiconductorBandgap(),
 		chi_s = mosfet.getSemiconductorElectronAffinity(), N_s = mosfet.getSemiconductorDopingConcentration(),
 		epsilon_s = mosfet.getSemiconductorPermittivity(), t_ox = mosfet.getOxideThickness(),
-		epsilon_ox = mosfet.getOxidePermittivity(), Q_ox = mosfet.getOxideTrappedCharge();
+		epsilon_ox = mosfet.getOxidePermittivity(), Q_ox = mosfet.getOxideTrappedCharge(), 
+        temperature = mosfet.getTemperature(), m_eff_e = mosfet.getElectronEffectiveMass() , m_eff_p = mosfet.getHoleEffectiveMass();
     double Vth;
-    //CONTINUE
 
+    double N_c = 2 * pow(((2 * PI * m_eff_e * BOLTZMANN_CONSTANT * temperature) / pow(PLANCK_CONSTANT , 2)) , (3 / 2));
+    double N_v = 2 * pow(((2 * PI * m_eff_p * BOLTZMANN_CONSTANT * temperature) / pow(PLANCK_CONSTANT, 2)), (3 / 2));
+    double n_i = sqrt(N_c * N_v * pow(EULERS_NUMBER, (-1 * Eg_s) / (BOLTZMANN_CONSTANT * temperature)));
+
+    if (type == 'N') {
+        double phi_fn = (BOLTZMANN_CONSTANT * temperature / ELEMENTARY_CHARGE) * log(N_s / n_i);
+		Vth = phi_m - (Eg_s / (2 * ELEMENTARY_CHARGE) + phi_fn + chi_s) + 2 * phi_fn + ((t_ox / epsilon_ox) * sqrt(ELEMENTARY_CHARGE * N_s * 4 * epsilon_s * phi_fn));
+	}
+    else if (type == 'P') {
+        double phi_fp = (BOLTZMANN_CONSTANT * temperature / ELEMENTARY_CHARGE) * log(N_s / n_i);
+        Vth = phi_m - (Eg_s / (2 * ELEMENTARY_CHARGE) + phi_fp + chi_s) + 2 * phi_fp + ((t_ox / epsilon_ox) * sqrt(ELEMENTARY_CHARGE * N_s * 4 * epsilon_s * phi_fp));
+    }
+    return Vth;
 }
 
-double level3_calc(double Vgs, double Vds, MOSFET mosfet){
+double level3_calc(MOSFET mosfet , double Vgs , double Vds, double Vt) {
     char type = mosfet.getType();
-    double Vt = mosfet.getVt(), mobility = mosfet.getMobility(), Cox = mosfet.getCox(),
+    double mobility = mosfet.getMobility(), Cox = mosfet.getCox(),
         W = mosfet.getChannelWidth(), L = mosfet.getChannelLength();
     if (type == 'n') {
         if (Vgs < Vt) {
@@ -27,6 +40,20 @@ double level3_calc(double Vgs, double Vds, MOSFET mosfet){
         }
         else if (Vds > Vgs - Vt) {
             return (mobility * Cox * (W / L) / 2 * (pow((Vgs - Vt) , 2)));
+        }
+    }
+}
+
+void level3_sweep(MOSFET mosfet , std::unordered_map<double , std::vector<double>>& Vgs_Ids_vector , std::vector<double> Vds_vector) {
+    // Iterate vgs values
+    double Vth = Vth_calc(mosfet);
+    for (const auto vgs_Ids_pair : Vgs_Ids_vector)
+    {
+        double vgs = vgs_Ids_pair.first;
+        // Iterate vds values
+        for (const auto vds : Vds_vector)
+        {
+            Vgs_Ids_vector[vgs].push_back(level3_calc(mosfet , vgs , vds, Vth));
         }
     }
 }

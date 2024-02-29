@@ -15,9 +15,10 @@ MOSFET::MOSFET(std::string Name, char type, double vt, double mobility, double c
     setType(type);
 }
 
-MOSFET::MOSFET(std::string name, char type, double mobility, double cox, double w, double l, 
-    double metalWorkFunction, double semiconductorBandgap, double semiconductorElectronAffinity, double dopingConcentration, double semiconductorPermittivity, 
-    double oxideThickness, double oxidePermittivity, double oxideTrappedCharge)
+MOSFET::MOSFET(std::string name, char type, double mobility, double cox, double w, double l,
+    double metalWorkFunction, double semiconductorBandgap, double semiconductorElectronAffinity, double semiconductorDopingConcentration, double semiconductorPermittivity,
+    double oxideThickness, double oxidePermittivity, double oxideTrappedCharge,
+    double temperature, double electronEffectiveMass, double holeEffectiveMass)
 {
 	setName(name);
 	setType(type);
@@ -28,7 +29,7 @@ MOSFET::MOSFET(std::string name, char type, double mobility, double cox, double 
    	setMetalWorkFunction(metalWorkFunction);
     setSemiconductorBandgap(semiconductorBandgap);
     setSemiconductorElectronAffinity(semiconductorElectronAffinity);
-    setSemiconductorDopingConcentrationn(dopingConcentration);
+    setSemiconductorDopingConcentrationn(semiconductorDopingConcentration);
     setSemiconductorPermittivity(semiconductorPermittivity);
     setOxideThickness(oxideThickness);
     setOxidePermittivity(oxidePermittivity);
@@ -164,8 +165,30 @@ void MOSFET::setOxideTrappedCharge(double OxideTrappedCharge)
 {
 	OxideTrappedCharge = oxideTrappedCharge;
 }
-
-
+double MOSFET::getTemperature() const
+{
+	return temperature;
+}
+void MOSFET::setTemperature(double Temperature)
+{
+	Temperature = temperature;
+}
+double MOSFET::getElectronEffectiveMass() const
+{
+	return electronEffectiveMass;
+}
+void MOSFET::setElectronEffectiveMass(double ElectronEffectiveMass)
+{
+	ElectronEffectiveMass = electronEffectiveMass;
+}
+double MOSFET::getHoleEffectiveMass() const
+{
+	return holeEffectiveMass;
+}
+void MOSFET::setHoleEffectiveMass(double HoleEffectiveMass)
+{
+	HoleEffectiveMass = holeEffectiveMass;
+}
 
 
 

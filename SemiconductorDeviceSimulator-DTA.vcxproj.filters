@@ -97,10 +97,17 @@
     <ClCompile Include="Helpers\Level3\Level3Calculation.cpp">
       <Filter>Header Files\Models</Filter>
     </ClCompile>
+    <ClCompile Include="Helpers\Level4\Level4Calculation.cpp">
+      <Filter>Header Files\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="Helpers\Level5\Level5Calculation.cpp">
+      <Filter>Header Files\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="Helpers\Level6\Level6Calculation.cpp">
+      <Filter>Header Files\Models</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Headers\Level1\Level1.txt" />
-    <Text Include="Headers\Level2\Level2.txt" />
     <Text Include="Helpers\Level1\Level1.txt">
       <Filter>Header Files\Models</Filter>
     </Text>
@@ -108,6 +115,15 @@
       <Filter>Header Files\Models</Filter>
     </Text>
     <Text Include="Helpers\Level3\Level3.txt">
+      <Filter>Header Files\Models</Filter>
+    </Text>
+    <Text Include="Helpers\Level4\Level4.txt">
+      <Filter>Header Files\Models</Filter>
+    </Text>
+    <Text Include="Helpers\Level5\Level5.txt">
+      <Filter>Header Files\Models</Filter>
+    </Text>
+    <Text Include="Helpers\Level6\Level6.txt">
       <Filter>Header Files\Models</Filter>
     </Text>
   </ItemGroup>
@@ -157,6 +173,15 @@
       <Filter>Header Files\Parameters</Filter>
     </ClInclude>
     <ClInclude Include="Helpers\Level3\Level3Calculation.h">
+      <Filter>Header Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="Helpers\Level4\Level4Calculation.h">
+      <Filter>Header Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="Helpers\Level5\Level5Calculation.h">
+      <Filter>Header Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="Helpers\Level6\Level6Calculation.h">
       <Filter>Header Files\Models</Filter>
     </ClInclude>
   </ItemGroup>

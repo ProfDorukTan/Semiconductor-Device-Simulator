@@ -7,8 +7,11 @@
 
 #include "cmath"
 
-const double q = (1.602 * pow(10,-19));
-const double k = (1.32 * pow(10,-23));
+const double ELEMENTARY_CHARGE = (1.602 * pow(10,-19));			//C
+const double BOLTZMANN_CONSTANT = (8.6173303 * pow(10, -5));	//eV/K
+const double PLANCK_CONSTANT = (4.135667696 * pow(10, -15));	//eV*s
+const double PI = 3.14159265358979323846;
+const double EULERS_NUMBER = 2.71828182845904523536;
 
 const int imageW = 1200;
 const int imageL = 800;

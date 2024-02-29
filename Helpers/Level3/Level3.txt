@@ -1,4 +1,4 @@
 Level 3 Complexity uses Gradual Channel approximation without considering channel length modulation.
 
-It calculates threshold voltage, Vth from manufacturing parameters:
+It calculates threshold voltage from manufacturing parameters thus includes temperature dependance:
 

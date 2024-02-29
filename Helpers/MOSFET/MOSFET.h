@@ -22,7 +22,8 @@ public:
     MOSFET(std::string name, char type, double vt, double mobility, double cox, double w, double l, double lambda);
     MOSFET(std::string name, char type, double mobility, double cox, double w, double l,
         double metalWorkFunction, double semiconductorBandgap, double semiconductorElectronAffinity, double semiconductorDopingConcentration, double semiconductorPermittivity,
-        double oxideThickness, double oxidePermittivity, double oxideTrappedCharge);
+        double oxideThickness, double oxidePermittivity, double oxideTrappedCharge, 
+        double temperature, double electronEffectiveMass, double holeEffectiveMass);
 
     //Static methods for managing instances - For multiple objects
     static void addMOSFET(MOSFET* mosfet);
@@ -65,6 +66,12 @@ public:
     void setOxidePermittivity(double oxidePermittivity);
     double getOxideTrappedCharge() const;
     void setOxideTrappedCharge(double oxideTrappedCharge);
+    double getTemperature() const;
+    void setTemperature(double temperature);
+    double getElectronEffectiveMass() const;
+    void setElectronEffectiveMass(double electronEffectiveMass);
+    double getHoleEffectiveMass() const;
+    void setHoleEffectiveMass(double holeEffectiveMass);
 
 private:
     // Static vector to store instances
@@ -88,6 +95,9 @@ private:
     double oxideThickness;
     double oxidePermittivity;
     double oxideTrappedCharge;
+    double temperature;
+    double electronEffectiveMass;
+    double holeEffectiveMass;
     
     //Additional required parameters for level2 simulation
     double Lambda;  //Channel length modulation parameter - empirical

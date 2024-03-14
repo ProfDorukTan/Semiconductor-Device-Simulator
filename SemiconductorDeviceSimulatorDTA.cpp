@@ -1,19 +1,26 @@
 #include "SemiconductorDeviceSimulatorDTA.h"
+#include "Helpers/Parameters/Parameters.h"
 
 SemiconductorDeviceSimulatorDTA::SemiconductorDeviceSimulatorDTA(QWidget* parent)
     : QMainWindow(parent)
     , ui(new Ui::SemiconductorDeviceSimulatorDTAClass())
 {
     ui->setupUi(this);
+    
+    on_LoadMOSFETs_clicked();       // Load MOSFETs from the file in the beginning
 
-    on_LoadMOSFETs_clicked();
-    // Connect the clicked signals with functions
+    // Signal-Slot connections
+    
+    // MOSFET Creation Page
     connect(ui->DeleteMosfetButton, &QPushButton::clicked, this, &SemiconductorDeviceSimulatorDTA::on_DeleteMosfetButton_clicked);
     connect(ui->SaveMosfetLevel1, &QPushButton::clicked, this, &SemiconductorDeviceSimulatorDTA::on_SaveMosfetLevel1_clicked);
     connect(ui->SaveMosfetLevel2, &QPushButton::clicked, this, &SemiconductorDeviceSimulatorDTA::on_SaveMosfetLevel2_clicked);
-    connect(ui->LoadMOSFETs, &QPushButton::clicked, this, &SemiconductorDeviceSimulatorDTA::on_LoadMOSFETs_clicked);
+    connect(ui->SaveMosfetLevel3, &QPushButton::clicked, this, &SemiconductorDeviceSimulatorDTA::on_SaveMosfetLevel3_clicked);
+
+    // Output Simulation Page
     connect(ui->AddVgs, &QPushButton::clicked, this, &SemiconductorDeviceSimulatorDTA::on_AddVgs_clicked);
-    connect(ui->OutputSimulate, &QPushButton::clicked, this, &SemiconductorDeviceSimulatorDTA::on_SimulateButton_clicked);
+    connect(ui->DeleteVgs, &QPushButton::clicked, this, &SemiconductorDeviceSimulatorDTA::on_DeleteVgs_clicked);
+    connect(ui->OutputSimulate, &QPushButton::clicked, this, &SemiconductorDeviceSimulatorDTA::on_OutputSimulateButton_clicked);
 
 }
 
@@ -25,12 +32,12 @@ SemiconductorDeviceSimulatorDTA::~SemiconductorDeviceSimulatorDTA()
 
 void SemiconductorDeviceSimulatorDTA::on_SaveMosfetLevel1_clicked() {
     // Retrieve values from input fields
-    QString name = ui->MosfetName->text(); // MOSFET Object Name
+    QString name = ui->MosfetName->text() + "--(LEVEL1)"; // MOSFET Object Name
     QString architecture = ui->L1_1->currentText();    //MOSFET Architecture
     QString channel = ui->L1_2->currentText();     //MOSFET Channel type
     double vt = ui->L1_3->value(); // Threshold Voltage
     double mobility = ui->L1_4->value(); // Mobility
-    double cox = ui->L1_5->value(); // Cox
+    double cox = ui->L1_5->value() * pow(10, -12); // Cox
     double w = ui->L1_6->value(); // W
     double l = ui->L1_7->value(); // L
 
@@ -39,9 +46,13 @@ void SemiconductorDeviceSimulatorDTA::on_SaveMosfetLevel1_clicked() {
         QMessageBox::warning(this, "Error", "MOSFET name cannot be empty.");
         return; // Stop further processing
     }
+    if (name.contains(" ")) {
+		QMessageBox::warning(this, "Error", "MOSFET name cannot contain spaces.");
+		return; // Stop further processing
+    }
 
 
-    // Create an instance of MOSFET (you need to define the MOSFET class)
+    // Create an instance of MOSFET
     bool isDuplicate = false;
     for (int i = 0; i < ui->MosfetList->count(); ++i) {
         QListWidgetItem* item = ui->MosfetList->item(i);
@@ -63,17 +74,18 @@ void SemiconductorDeviceSimulatorDTA::on_SaveMosfetLevel1_clicked() {
     // Add MOSFET name to the list widget
     ui->MosfetList->addItem(name);
     ui->MosfetList_2->addItem(name);
+    ui->MosfetList_3->addItem(name);
 
 }
 
 void SemiconductorDeviceSimulatorDTA::on_SaveMosfetLevel2_clicked() {
     // Retrieve values from input fields
-    QString name = ui->MosfetName->text(); // MOSFET Object Name
+    QString name = ui->MosfetName->text() + "--(LEVEL2)"; // MOSFET Object Name
     QString architecture = ui->L2_1->currentText();    //MOSFET Architecture
     QString channel = ui->L2_2->currentText();     //MOSFET Channel type
     double vt = ui->L2_3->value(); // Threshold Voltage
     double mobility = ui->L2_4->value(); // Mobility
-    double cox = ui->L2_5->value(); // Cox
+    double cox = ui->L2_5->value() * pow(10, -12); // Cox
     double w = ui->L2_6->value(); // W
     double l = ui->L2_7->value(); // L
     double lambda = ui->L2_8->value(); // Lambda
@@ -81,6 +93,10 @@ void SemiconductorDeviceSimulatorDTA::on_SaveMosfetLevel2_clicked() {
     // Validate inputs
     if (name.isEmpty()) {
         QMessageBox::warning(this, "Error", "MOSFET name cannot be empty.");
+        return; // Stop further processing
+    }
+    if (name.contains(" ")) {
+        QMessageBox::warning(this, "Error", "MOSFET name cannot contain spaces.");
         return; // Stop further processing
     }
 
@@ -100,17 +116,76 @@ void SemiconductorDeviceSimulatorDTA::on_SaveMosfetLevel2_clicked() {
         return; // Don't proceed with adding the MOSFET
     }
 
-    // Create an instance of MOSFET for Level 1
+    // Create an instance of MOSFET for Level 2
     MOSFET* mosfet = new MOSFET(name.toStdString(), channel.at(0).toLatin1(), vt, mobility, cox, w, l, lambda);
     MOSFET::addMOSFET(mosfet);
 
     // Add MOSFET name to the list widget
     ui->MosfetList->addItem(name);
     ui->MosfetList_2->addItem(name);
+    ui->MosfetList_3->addItem(name);
 
-    // You can now use the 'mosfet' object as needed
-    // For example, add it to a list, display information, etc.
 }
+
+void SemiconductorDeviceSimulatorDTA::on_SaveMosfetLevel3_clicked() {
+    // Retrieve values from input fields
+    QString name = ui->MosfetName->text() + "--(LEVEL3)"; // MOSFET Object Name
+    QString architecture = ui->L3_1->currentText();    //MOSFET Architecture
+    QString channel = ui->L3_2->currentText();     //MOSFET Channel type
+    double mobility = ui->L3_3->value(); // Mobility
+    double w = ui->L3_5->value(); // W
+    double l = ui->L3_6->value(); // L
+    double metalWorkFunction = ui->L3_7->value(); // Metal Work Function
+    double semiconductorBandgap = ui->L3_8->value(); // Semiconductor Bandgap
+    double semiconductorElectronAffinity = ui->L3_9->value(); // Semiconductor Electron Affinity
+    double semiconductorDopingConcentration = ui->L3_10->value(); // Semiconductor Doping Concentration
+    double semiconductorPermittivity = ui->L3_11->value(); // Semiconductor Permittivity
+    double oxideThickness = ui->L3_12->value(); // Oxide Thickness
+    double oxidePermittivity = ui->L3_13->value(); // Oxide Permittivity
+    double oxideTrappedCharge = ui->L3_14->value(); // Oxide Trapped Charge
+    double temperature = ui->L3_15->value(); // Temperature
+    double effectiveDensityOfStatesInValenceBand = (ui->L3_16->value()) * pow(temperature, (3/2)) * pow(10, 15); // Effective Density of States in Valence Band
+    double effectiveDensityOfStatesInConductionBand = (ui->L3_17->value()) * pow(temperature, (3/2)) * pow(10, 15); // Effective Density of States in Conduction Band
+
+
+    // Validate inputs
+    if (name.isEmpty()) {
+        QMessageBox::warning(this, "Error", "MOSFET name cannot be empty.");
+        return; // Stop further processing
+    }
+    if (name.contains(" ")) {
+        QMessageBox::warning(this, "Error", "MOSFET name cannot contain spaces.");
+        return; // Stop further processing
+    }
+
+
+    // Create an instance of MOSFET
+    bool isDuplicate = false;
+    for (int i = 0; i < ui->MosfetList->count(); ++i) {
+        QListWidgetItem* item = ui->MosfetList->item(i);
+        if (item && item->text() == name) {
+            isDuplicate = true;
+            break;
+        }
+    }
+    if (isDuplicate) {
+        // Display a message or take appropriate action for duplicate name
+        QMessageBox::warning(this, "Duplicate Name", "MOSFET with the same name already exists.");
+        return; // Don't proceed with adding the MOSFET
+    }
+
+    // Create an instance of MOSFET for Level 3
+    MOSFET* mosfet = new MOSFET(name.toStdString(), channel.at(0).toLatin1(), mobility, w, l, metalWorkFunction, 
+        semiconductorBandgap, semiconductorElectronAffinity, semiconductorDopingConcentration, semiconductorPermittivity, 
+        oxideThickness, oxidePermittivity, oxideTrappedCharge, temperature, effectiveDensityOfStatesInConductionBand, effectiveDensityOfStatesInValenceBand);
+    MOSFET::addMOSFET(mosfet);
+
+    // Add MOSFET name to the list widget
+    ui->MosfetList->addItem(name);
+    ui->MosfetList_2->addItem(name);
+    ui->MosfetList_3->addItem(name);
+}
+
 
 void SemiconductorDeviceSimulatorDTA::on_DeleteMosfetButton_clicked() {
     // Get the selected item from the list widget
@@ -163,6 +238,31 @@ void SemiconductorDeviceSimulatorDTA::on_AddVgs_clicked() {
     ui->VgsList->addItem(VgsSTR);
 }
 
+void SemiconductorDeviceSimulatorDTA::on_DeleteVgs_clicked() {
+	// Get the selected item from the list widget
+	QListWidgetItem* selectedItem = ui->VgsList->currentItem();
+
+	// Check if an item is selected
+    if (!selectedItem) {
+		QMessageBox::warning(this, "Error", "Please select a Vgs to delete.");
+		return;
+	}
+
+	// Get the name of the selected MOSFET
+	QString Vgs = selectedItem->text();
+
+	// Ask for confirmation
+	QMessageBox::StandardButton reply = QMessageBox::question(this, "Confirmation",
+        		"Are you sure you want to delete the Vgs: " + Vgs + "?",
+        		QMessageBox::Yes | QMessageBox::No);
+
+	// Check the user's response
+    if (reply == QMessageBox::Yes) {
+		// User clicked "Yes," so proceed with deleting the MOSFET
+		delete selectedItem;
+	}
+	// If "No" or the dialog is closed, do nothing
+}
 
 
 // Simuation functions
@@ -206,7 +306,7 @@ QString findLatestImage(const QString& directoryPath) {
     return QString();
 }
 
-void SemiconductorDeviceSimulatorDTA::on_SimulateButton_clicked() {
+void SemiconductorDeviceSimulatorDTA::on_OutputSimulateButton_clicked() {
     QListWidgetItem* selectedItem = ui->MosfetList_2->currentItem();
     // Check if an item is selected
     if (!selectedItem) {
@@ -226,23 +326,15 @@ void SemiconductorDeviceSimulatorDTA::on_SimulateButton_clicked() {
         double Vmax = ui->Output_4->value();
         double Vstep = ui->Output_5->value();
         int level = ui->Output_1->value();
-        if (Vmin > Vmax) {
-            QMessageBox::warning(this, "Error", "Vmin > Vmax");
+        if (((Vmin > Vmax) && (Vstep > 0)) || (Vmin < Vmax) && (Vstep < 0)) {
+            QMessageBox::warning(this, "Error", "Vmin-Vmax-Vstep sign mismatch");
             return;
         }
         std::vector<double> vgsValues;
         for (int i = 0; i < ui->VgsList->count(); ++i) {
             QString itemText = ui->VgsList->item(i)->text();
-            bool conversionOK;
-            double value = itemText.toDouble(&conversionOK);
-            // Check if conversion to double was successful
-            if (conversionOK) {
-                vgsValues.push_back(value);
-            }
-            else {
-                // Handle the case where conversion fails (optional)
-                qDebug() << "Failed to convert item text to double: " << itemText;
-            }
+            double value = itemText.toDouble();
+            vgsValues.push_back(value);
         }
 
         std::string targetName = mosfetName.toStdString();
@@ -280,6 +372,7 @@ void SemiconductorDeviceSimulatorDTA::on_SimulateButton_clicked() {
 #include <fstream>
 #include <QMessageBox>
 
+//This function is used to load the MOSFETs from a file to the running application
 void SemiconductorDeviceSimulatorDTA::on_LoadMOSFETs_clicked() {
     // Open the JSON file
     std::ifstream file("mosfets.json");
@@ -328,6 +421,7 @@ void SemiconductorDeviceSimulatorDTA::on_LoadMOSFETs_clicked() {
     }
 }
 
+//This function is used to save the MOSFETs from the running application to a file
 void SemiconductorDeviceSimulatorDTA::on_SaveMOSFETs_clicked() {
     // Check if the JSON file already exists
     std::ifstream checkFile("mosfets.json");
@@ -377,6 +471,7 @@ void SemiconductorDeviceSimulatorDTA::on_SaveMOSFETs_clicked() {
     }
 }
 
+//This function is used to update the UI with the loaded MOSFETs
 void SemiconductorDeviceSimulatorDTA::updateUIWithLoadedMOSFETs() {
     // Implement this function to update the UI with loaded MOSFETs
     // For example, you can populate a list widget with MOSFET names
@@ -384,5 +479,6 @@ void SemiconductorDeviceSimulatorDTA::updateUIWithLoadedMOSFETs() {
     for (const MOSFET* mosfet : MOSFET::getMosfets()) {
         ui->MosfetList->addItem(QString::fromStdString(mosfet->getName()));
         ui->MosfetList_2->addItem(QString::fromStdString(mosfet->getName()));
+        ui->MosfetList_3->addItem(QString::fromStdString(mosfet->getName()));
     }
 }

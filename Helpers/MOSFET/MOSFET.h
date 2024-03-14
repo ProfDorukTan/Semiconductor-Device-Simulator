@@ -18,9 +18,12 @@
 class MOSFET {
 public:
     MOSFET();
+    //LVL1 Constructor
     MOSFET(std::string name, char type, double vt, double mobility, double cox, double w, double l);
+    //LVL2 Constructor
     MOSFET(std::string name, char type, double vt, double mobility, double cox, double w, double l, double lambda);
-    MOSFET(std::string name, char type, double mobility, double cox, double w, double l,
+    //LVL3 Constructor
+    MOSFET(std::string name, char type, double mobility, double w, double l,
         double metalWorkFunction, double semiconductorBandgap, double semiconductorElectronAffinity, double semiconductorDopingConcentration, double semiconductorPermittivity,
         double oxideThickness, double oxidePermittivity, double oxideTrappedCharge, 
         double temperature, double electronEffectiveMass, double holeEffectiveMass);
@@ -68,10 +71,10 @@ public:
     void setOxideTrappedCharge(double oxideTrappedCharge);
     double getTemperature() const;
     void setTemperature(double temperature);
-    double getElectronEffectiveMass() const;
-    void setElectronEffectiveMass(double electronEffectiveMass);
-    double getHoleEffectiveMass() const;
-    void setHoleEffectiveMass(double holeEffectiveMass);
+    double getEffectiveDensityOfStatesInConductionBand() const;
+    void setEffectiveDensityOfStatesInConductionBand(double effectiveDensityOfStatesInConductionBand);
+    double getEffectiveDensityOfStatesInValenceBand() const;
+    void setEffectiveDensityOfStatesInValenceBand(double effectiveDensityOfStatesInValenceBand);
 
 private:
     // Static vector to store instances
@@ -96,8 +99,9 @@ private:
     double oxidePermittivity;
     double oxideTrappedCharge;
     double temperature;
-    double electronEffectiveMass;
-    double holeEffectiveMass;
+    double effectiveDensityOfStatesInConductionBand;
+    double effectiveDensityOfStatesInValenceBand;
+
     
     //Additional required parameters for level2 simulation
     double Lambda;  //Channel length modulation parameter - empirical

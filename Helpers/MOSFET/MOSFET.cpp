@@ -15,15 +15,14 @@ MOSFET::MOSFET(std::string Name, char type, double vt, double mobility, double c
     setType(type);
 }
 
-MOSFET::MOSFET(std::string name, char type, double mobility, double cox, double w, double l,
+MOSFET::MOSFET(std::string name, char type, double mobility, double w, double l,
     double metalWorkFunction, double semiconductorBandgap, double semiconductorElectronAffinity, double semiconductorDopingConcentration, double semiconductorPermittivity,
     double oxideThickness, double oxidePermittivity, double oxideTrappedCharge,
-    double temperature, double electronEffectiveMass, double holeEffectiveMass)
+    double temperature, double effectiveDensityOfStatesInConductionBand, double effectiveDensityOfStatesInValenceBand)
 {
 	setName(name);
 	setType(type);
 	setMobility(mobility);
-	setCox(cox);
 	setChannelWidth(w);
 	setChannelLength(l);
    	setMetalWorkFunction(metalWorkFunction);
@@ -31,10 +30,11 @@ MOSFET::MOSFET(std::string name, char type, double mobility, double cox, double 
     setSemiconductorElectronAffinity(semiconductorElectronAffinity);
     setSemiconductorDopingConcentrationn(semiconductorDopingConcentration);
     setSemiconductorPermittivity(semiconductorPermittivity);
+    setEffectiveDensityOfStatesInConductionBand(effectiveDensityOfStatesInConductionBand);
+    setEffectiveDensityOfStatesInValenceBand(effectiveDensityOfStatesInValenceBand);
     setOxideThickness(oxideThickness);
     setOxidePermittivity(oxidePermittivity);
     setOxideTrappedCharge(oxideTrappedCharge);
-
 }
 
 //GETTER & SETTER FUNCTIONS for the class
@@ -173,21 +173,21 @@ void MOSFET::setTemperature(double Temperature)
 {
 	Temperature = temperature;
 }
-double MOSFET::getElectronEffectiveMass() const
+double MOSFET::getEffectiveDensityOfStatesInConductionBand() const
 {
-	return electronEffectiveMass;
+	return effectiveDensityOfStatesInConductionBand;
 }
-void MOSFET::setElectronEffectiveMass(double ElectronEffectiveMass)
+void MOSFET::setEffectiveDensityOfStatesInConductionBand(double EffectiveDensityOfStatesInConductionBand)
 {
-	ElectronEffectiveMass = electronEffectiveMass;
+	EffectiveDensityOfStatesInConductionBand = effectiveDensityOfStatesInConductionBand;
 }
-double MOSFET::getHoleEffectiveMass() const
+double MOSFET::getEffectiveDensityOfStatesInValenceBand() const
 {
-	return holeEffectiveMass;
+	return effectiveDensityOfStatesInValenceBand;
 }
-void MOSFET::setHoleEffectiveMass(double HoleEffectiveMass)
+void MOSFET::setEffectiveDensityOfStatesInValenceBand(double EffectiveDensityOfStatesInValenceBand)
 {
-	HoleEffectiveMass = holeEffectiveMass;
+	EffectiveDensityOfStatesInValenceBand = effectiveDensityOfStatesInValenceBand;
 }
 
 

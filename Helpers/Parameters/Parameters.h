@@ -15,4 +15,12 @@ const double EULERS_NUMBER = 2.71828182845904523536;
 
 const int imageW = 1200;
 const int imageL = 800;
+
+
+
+//Material Constants - From http://www.matprop.ru/
+const double SILICON_BANDGAP = 1.12;	//eV
+
+
+
 #endif //MAIN_CPP_PARAMETERS_H

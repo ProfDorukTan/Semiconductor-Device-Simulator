@@ -9,11 +9,9 @@ double Vth_calc(MOSFET mosfet) {
 		chi_s = mosfet.getSemiconductorElectronAffinity(), N_s = mosfet.getSemiconductorDopingConcentration(),
 		epsilon_s = mosfet.getSemiconductorPermittivity(), t_ox = mosfet.getOxideThickness(),
 		epsilon_ox = mosfet.getOxidePermittivity(), Q_ox = mosfet.getOxideTrappedCharge(), 
-        temperature = mosfet.getTemperature(), m_eff_e = mosfet.getElectronEffectiveMass() , m_eff_p = mosfet.getHoleEffectiveMass();
+        temperature = mosfet.getTemperature(), N_c = mosfet.getEffectiveDensityOfStatesInConductionBand(), N_v = mosfet.getEffectiveDensityOfStatesInValenceBand();
     double Vth;
 
-    double N_c = 2 * pow(((2 * PI * m_eff_e * BOLTZMANN_CONSTANT * temperature) / pow(PLANCK_CONSTANT , 2)) , (3 / 2));
-    double N_v = 2 * pow(((2 * PI * m_eff_p * BOLTZMANN_CONSTANT * temperature) / pow(PLANCK_CONSTANT, 2)), (3 / 2));
     double n_i = sqrt(N_c * N_v * pow(EULERS_NUMBER, (-1 * Eg_s) / (BOLTZMANN_CONSTANT * temperature)));
 
     if (type == 'N') {

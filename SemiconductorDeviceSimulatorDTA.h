@@ -42,8 +42,10 @@ private:
 
     void on_SaveMosfetLevel1_clicked();
     void on_SaveMosfetLevel2_clicked();
+    void on_SaveMosfetLevel3_clicked();
 
     //Output Simulation
     void on_AddVgs_clicked();
-    void on_SimulateButton_clicked();
+    void on_DeleteVgs_clicked();
+    void on_OutputSimulateButton_clicked();
 };

@@ -109,6 +109,7 @@
     <ClCompile Include="SemiconductorDeviceSimulatorDTA.cpp" />
     <ClCompile Include="main.cpp" />
     <None Include="mosfets.json" />
+    <None Include="README.md" />
     <None Include="SemiconductorDeviceSimulator-DTA.ico" />
     <ResourceCompile Include="SemiconductorDeviceSimulator-DTA.rc" />
   </ItemGroup>

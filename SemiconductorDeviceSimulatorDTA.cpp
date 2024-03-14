@@ -341,7 +341,6 @@ void SemiconductorDeviceSimulatorDTA::on_OutputSimulateButton_clicked() {
         MOSFET* targetMOSFET = MOSFET::getMOSFETByName(targetName);
         OutputSimulation output(*targetMOSFET, Vmin, Vmax, Vstep, vgsValues);
         output.GraphOutputCurve(level);
-
     }
 
 

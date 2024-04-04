@@ -26,7 +26,7 @@ public:
     MOSFET(std::string name, char type, double mobility, double w, double l,
         double metalWorkFunction, double semiconductorBandgap, double semiconductorElectronAffinity, double semiconductorDopingConcentration, double semiconductorPermittivity,
         double oxideThickness, double oxidePermittivity, double oxideTrappedCharge, 
-        double temperature, double electronEffectiveMass, double holeEffectiveMass);
+        double temperature, double effectiveDensityOfStatesInConductionBand, double effectiveDensityOfStatesInValenceBand);
 
     //Static methods for managing instances - For multiple objects
     static void addMOSFET(MOSFET* mosfet);
@@ -39,8 +39,6 @@ public:
     void setName(const std::string &name);
     char getType() const;
     void setType(char type);
-    double getTempK() const;
-    void setTempK(double tempK);
     double getVt() const;
     void setVt(double vt);
     double getMobility() const;
@@ -82,25 +80,24 @@ private:
     //Minimum required parameters for level1 simulation
     std::string name;
     char type;
-    double tempK;
     double Vt;
-    double mobility;
+    double Mobility;
     double Cox;
     double ChannelWidth;
     double ChannelLength;
 
     //Parameters for Vt calculation
-    double metalWorkFunction;
-    double semiconductorBandgap;
-    double semiconductorElectronAffinity;  
-    double semiconductorDopingConcentration;
-    double semiconductorPermittivity;
-    double oxideThickness;
-    double oxidePermittivity;
-    double oxideTrappedCharge;
-    double temperature;
-    double effectiveDensityOfStatesInConductionBand;
-    double effectiveDensityOfStatesInValenceBand;
+    double MetalWorkFunction;
+    double SemiconductorBandgap;
+    double SemiconductorElectronAffinity;  
+    double SemiconductorDopingConcentration;
+    double SemiconductorPermittivity;
+    double OxideThickness;
+    double OxidePermittivity;
+    double OxideTrappedCharge;
+    double Temperature;
+    double EffectiveDensityOfStatesInConductionBand;
+    double EffectiveDensityOfStatesInValenceBand;
 
     
     //Additional required parameters for level2 simulation

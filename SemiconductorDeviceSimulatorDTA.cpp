@@ -1,6 +1,14 @@
 #include "SemiconductorDeviceSimulatorDTA.h"
 #include "Helpers/Parameters/Parameters.h"
 
+#include <fstream>
+#include <QMessageBox>
+#include <QDialog>
+#include <QLabel>
+#include <QVBoxLayout>
+#include <QDir>
+#include <QFileInfoList>
+
 SemiconductorDeviceSimulatorDTA::SemiconductorDeviceSimulatorDTA(QWidget* parent)
     : QMainWindow(parent)
     , ui(new Ui::SemiconductorDeviceSimulatorDTAClass())
@@ -16,12 +24,30 @@ SemiconductorDeviceSimulatorDTA::SemiconductorDeviceSimulatorDTA(QWidget* parent
     connect(ui->SaveMosfetLevel1, &QPushButton::clicked, this, &SemiconductorDeviceSimulatorDTA::on_SaveMosfetLevel1_clicked);
     connect(ui->SaveMosfetLevel2, &QPushButton::clicked, this, &SemiconductorDeviceSimulatorDTA::on_SaveMosfetLevel2_clicked);
     connect(ui->SaveMosfetLevel3, &QPushButton::clicked, this, &SemiconductorDeviceSimulatorDTA::on_SaveMosfetLevel3_clicked);
+        //Parameter preload Functions
+        connect(ui->LoadMetalLevel3, &QPushButton::clicked, this, &SemiconductorDeviceSimulatorDTA::on_LoadMetal_clicked);
+        connect(ui->LoadSemiconductorLevel3, &QPushButton::clicked, this, &SemiconductorDeviceSimulatorDTA::on_LoadSemiconductor_clicked);
+
 
     // Output Simulation Page
     connect(ui->AddVgs, &QPushButton::clicked, this, &SemiconductorDeviceSimulatorDTA::on_AddVgs_clicked);
     connect(ui->DeleteVgs, &QPushButton::clicked, this, &SemiconductorDeviceSimulatorDTA::on_DeleteVgs_clicked);
     connect(ui->OutputSimulate, &QPushButton::clicked, this, &SemiconductorDeviceSimulatorDTA::on_OutputSimulateButton_clicked);
 
+
+
+}
+
+//This function is used to update the UI with the loaded MOSFETs
+void SemiconductorDeviceSimulatorDTA::updateUIWithLoadedMOSFETs() {
+    // Implement this function to update the UI with loaded MOSFETs
+    // For example, you can populate a list widget with MOSFET names
+    ui->MosfetList->clear();
+    for (const MOSFET* mosfet : MOSFET::getMosfets()) {
+        ui->MosfetList->addItem(QString::fromStdString(mosfet->getName()));
+        ui->MosfetList_2->addItem(QString::fromStdString(mosfet->getName()));
+        ui->MosfetList_3->addItem(QString::fromStdString(mosfet->getName()));
+    }
 }
 
 SemiconductorDeviceSimulatorDTA::~SemiconductorDeviceSimulatorDTA()
@@ -30,6 +56,117 @@ SemiconductorDeviceSimulatorDTA::~SemiconductorDeviceSimulatorDTA()
     delete ui;
 }
 
+//This function is used to load the MOSFETs from a file to the running application
+void SemiconductorDeviceSimulatorDTA::on_LoadMOSFETs_clicked() {
+    // Open the JSON file
+    std::ifstream file("mosfets.json");
+
+    if (file.is_open()) {
+        try {
+            // Parse the JSON array from the file
+            nlohmann::json mosfetArray;
+            file >> mosfetArray;
+
+            // Clear existing MOSFETs
+            MOSFET::clearMosfets();
+
+            // Iterate through each JSON object in the array
+            for (const auto& mosfetObject : mosfetArray) {
+                // Extract parameters from the JSON object
+                std::string name = mosfetObject["name"];
+                char type = mosfetObject.value("type", ' ');  // Use ' ' as a placeholder
+                double vt = mosfetObject.value("vt", NULL);   // Use NULL as a placeholder
+                double mobility = mosfetObject.value("mobility", NULL); // Use NULL as a placeholder
+                double cox = mosfetObject.value("cox", NULL); // Use NULL as a placeholder
+                double channelWidth = mosfetObject.value("channelWidth", NULL); // Use NULL as a placeholder
+                double channelLength = mosfetObject.value("channelLength", NULL); // Use NULL as a placeholder
+                double lambda = mosfetObject.value("lambda", NULL); // Use NULL as a placeholder
+
+                // Create a MOSFET object using the extracted parameters
+                MOSFET* mosfet = new MOSFET(name, type, vt, mobility, cox, channelWidth, channelLength, lambda);
+
+                // Add the MOSFET object to the list
+                MOSFET::addMOSFET(mosfet);
+            }
+
+            // Update the UI with the loaded MOSFETs
+            updateUIWithLoadedMOSFETs();
+        }
+        catch (const nlohmann::json::exception& e) {
+            // Handle JSON parsing errors
+            QMessageBox::warning(this, "Error", "Error while parsing MOSFET data: " + QString::fromStdString(e.what()));
+        }
+
+        file.close();
+    }
+    else {
+        // Handle the case where the file couldn't be opened
+        QMessageBox::warning(this, "Error", "Could not open the file for reading.");
+    }
+}
+
+//This function is used to save the MOSFETs from the running application to a file
+void SemiconductorDeviceSimulatorDTA::on_SaveMOSFETs_clicked() {
+    // Check if the JSON file already exists
+    std::ifstream checkFile("mosfets.json");
+    bool fileExists = checkFile.good();
+    checkFile.close();
+
+    // Open the JSON file with binary mode to handle potential encoding issues
+    std::ofstream file("mosfets.json", std::ios::binary);
+
+    if (file.is_open()) {
+        // Create a JSON array
+        nlohmann::json mosfetArray;
+
+        // Iterate through each MOSFET
+        for (MOSFET* mosfet : MOSFET::getMosfets()) {
+            // Create a JSON object for each MOSFET
+            nlohmann::json mosfetObject;
+
+            // Add MOSFET parameters to the JSON object
+            mosfetObject["name"] = mosfet->getName();
+            mosfetObject["type"] = mosfet->getType();
+            mosfetObject["vt"] = mosfet->getVt();
+            mosfetObject["mobility"] = mosfet->getMobility();
+            mosfetObject["cox"] = mosfet->getCox();
+            mosfetObject["channelWidth"] = mosfet->getChannelWidth();
+            mosfetObject["channelLength"] = mosfet->getChannelLength();
+            mosfetObject["lambda"] = mosfet->getLambda();
+            mosfetObject["metalWorkFunction"] = mosfet->getMetalWorkFunction();
+            mosfetObject["semiconductorBandgap"] = mosfet->getSemiconductorBandgap();
+            mosfetObject["semiconductorElectronAffinity"] = mosfet->getSemiconductorElectronAffinity();
+            mosfetObject["semiconductorDopingConcentration"] = mosfet->getSemiconductorDopingConcentration();
+            mosfetObject["semiconductorPermittivity"] = mosfet->getSemiconductorPermittivity();
+            mosfetObject["oxideThickness"] = mosfet->getOxideThickness();
+            mosfetObject["oxidePermittivity"] = mosfet->getOxidePermittivity();
+            mosfetObject["oxideTrappedCharge"] = mosfet->getOxideTrappedCharge();
+            mosfetObject["temperature"] = mosfet->getTemperature();
+            mosfetObject["effectiveDensityOfStatesInConductionBand"] = mosfet->getEffectiveDensityOfStatesInConductionBand();
+            mosfetObject["effectiveDensityOfStatesInValenceBand"] = mosfet->getEffectiveDensityOfStatesInValenceBand();
+
+            // Add the MOSFET JSON object to the array
+            mosfetArray.push_back(mosfetObject);
+        }
+
+        // Save the JSON array to the file
+        file << mosfetArray.dump(4);  // The second argument (4) is for pretty printing
+        file.close();
+
+        if (fileExists) {
+            QMessageBox::information(this, "Success", "MOSFETs saved successfully!");
+        }
+        else {
+            QMessageBox::information(this, "Success", "MOSFETs file created and saved successfully!");
+        }
+    }
+    else {
+        // Handle the case where the file couldn't be opened
+        QMessageBox::warning(this, "Error", "Could not open the file for writing.");
+    }
+}
+
+// MOSFET Creation Page
 void SemiconductorDeviceSimulatorDTA::on_SaveMosfetLevel1_clicked() {
     // Retrieve values from input fields
     QString name = ui->MosfetName->text() + "--(LEVEL1)"; // MOSFET Object Name
@@ -132,23 +269,26 @@ void SemiconductorDeviceSimulatorDTA::on_SaveMosfetLevel3_clicked() {
     QString name = ui->MosfetName->text() + "--(LEVEL3)"; // MOSFET Object Name
     QString architecture = ui->L3_1->currentText();    //MOSFET Architecture
     QString channel = ui->L3_2->currentText();     //MOSFET Channel type
-    double mobility = ui->L3_3->value(); // Mobility
-    double w = ui->L3_5->value(); // W
-    double l = ui->L3_6->value(); // L
-    double metalWorkFunction = ui->L3_7->value(); // Metal Work Function
-    double semiconductorBandgap = ui->L3_8->value(); // Semiconductor Bandgap
-    double semiconductorElectronAffinity = ui->L3_9->value(); // Semiconductor Electron Affinity
-    double semiconductorDopingConcentration = ui->L3_10->value(); // Semiconductor Doping Concentration
-    double semiconductorPermittivity = ui->L3_11->value(); // Semiconductor Permittivity
-    double oxideThickness = ui->L3_12->value(); // Oxide Thickness
-    double oxidePermittivity = ui->L3_13->value(); // Oxide Permittivity
-    double oxideTrappedCharge = ui->L3_14->value(); // Oxide Trapped Charge
-    double temperature = ui->L3_15->value(); // Temperature
-    double effectiveDensityOfStatesInValenceBand = (ui->L3_16->value()) * pow(temperature, (3/2)) * pow(10, 15); // Effective Density of States in Valence Band
-    double effectiveDensityOfStatesInConductionBand = (ui->L3_17->value()) * pow(temperature, (3/2)) * pow(10, 15); // Effective Density of States in Conduction Band
+    double temperature = ui->L3_3->value(); // Temperature
+    double w = ui->L3_4->value(); // W
+    double l = ui->L3_5->value(); // L
+
+    double metalWorkFunction = ui->L3_6->value(); // Metal Work Function
+
+    double oxideThickness = ui->L3_7->value(); // Oxide Thickness
+    double oxidePermittivity = ui->L3_8->value(); // Oxide Permittivity
+    double oxideTrappedCharge = ui->L3_9->value(); // Oxide Trapped Charge
+
+    double mobility = ui->L3_10->value(); // Mobility
+    double semiconductorBandgap = ui->L3_11->value(); // Semiconductor Bandgap
+    double effectiveDensityOfStatesInConductionBand = (ui->L3_12->value()) * pow(10, 19); // Effective Density of States in Conduction Band
+    double effectiveDensityOfStatesInValenceBand = (ui->L3_13->value()) * pow(10, 19); // Effective Density of States in Valence Band
+    double semiconductorElectronAffinity = ui->L3_14->value(); // Semiconductor Electron Affinity
+    double semiconductorPermittivity = ui->L3_15->value(); // Semiconductor Permittivity
+    double semiconductorDopingConcentration = ui->L3_16->value(); // Semiconductor Doping Concentration
 
 
-    // Validate inputs
+    // Validate MOSFET Name
     if (name.isEmpty()) {
         QMessageBox::warning(this, "Error", "MOSFET name cannot be empty.");
         return; // Stop further processing
@@ -158,8 +298,6 @@ void SemiconductorDeviceSimulatorDTA::on_SaveMosfetLevel3_clicked() {
         return; // Stop further processing
     }
 
-
-    // Create an instance of MOSFET
     bool isDuplicate = false;
     for (int i = 0; i < ui->MosfetList->count(); ++i) {
         QListWidgetItem* item = ui->MosfetList->item(i);
@@ -185,7 +323,6 @@ void SemiconductorDeviceSimulatorDTA::on_SaveMosfetLevel3_clicked() {
     ui->MosfetList_2->addItem(name);
     ui->MosfetList_3->addItem(name);
 }
-
 
 void SemiconductorDeviceSimulatorDTA::on_DeleteMosfetButton_clicked() {
     // Get the selected item from the list widget
@@ -218,6 +355,69 @@ void SemiconductorDeviceSimulatorDTA::on_DeleteMosfetButton_clicked() {
     // If "No" or the dialog is closed, do nothing
 }
 
+// Parameter preload Functions
+void SemiconductorDeviceSimulatorDTA::on_LoadMetal_clicked() {
+    QString metalChoice = ui->MetalList->currentText();
+    if (metalChoice == "Al") {
+        ui->L3_6->setValue(ALUMINUM_WORK_FUNCTION);
+    }
+}
+
+void SemiconductorDeviceSimulatorDTA::on_LoadSemiconductor_clicked() {
+    QString semiconductorChoice = ui->SemiconductorList->currentText();
+    if (semiconductorChoice == "n-Si") {
+        ui->L3_10->setValue(SILICON_ELECTRON_MOBILITY);
+        ui->L3_11->setValue(SILICON_BANDGAP);
+        ui->L3_12->setValue(SILICON_EFFECTIVE_DENSITY_OF_STATES_IN_CONDUCTION_BAND);
+        ui->L3_13->setValue(SILICON_EFFECTIVE_DENSITY_OF_STATES_IN_VALANCE_BAND);
+        ui->L3_14->setValue(SILICON_ELECTON_AFFINITY);
+        ui->L3_15->setValue(SILICON_DIELECTRIC_CONSTANT);
+    }
+    else if (semiconductorChoice == "p-Si") {
+        ui->L3_10->setValue(SILICON_HOLE_MOBILITY);
+        ui->L3_11->setValue(SILICON_BANDGAP);
+        ui->L3_12->setValue(SILICON_EFFECTIVE_DENSITY_OF_STATES_IN_CONDUCTION_BAND);
+        ui->L3_13->setValue(SILICON_EFFECTIVE_DENSITY_OF_STATES_IN_VALANCE_BAND);
+        ui->L3_14->setValue(SILICON_ELECTON_AFFINITY);
+        ui->L3_15->setValue(SILICON_DIELECTRIC_CONSTANT);
+    }
+    else if (semiconductorChoice == "n-Ge") {
+        ui->L3_10->setValue(GERMANIUM_ELECTRON_MOBILITY);
+        ui->L3_11->setValue(GERMANIUM_BANDGAP);
+        ui->L3_12->setValue(GERMANIUM_EFFECTIVE_DENSITY_OF_STATES_IN_CONDUCTION_BAND);
+        ui->L3_13->setValue(GERMANIUM_EFFECTIVE_DENSITY_OF_STATES_IN_VALANCE_BAND);
+        ui->L3_14->setValue(GERMANIUM_ELECTON_AFFINITY);
+        ui->L3_15->setValue(GERMANIUM_DIELECTRIC_CONSTANT);
+    }
+    else if (semiconductorChoice == "p-Ge") {
+        ui->L3_10->setValue(GERMANIUM_HOLE_MOBILITY);
+        ui->L3_11->setValue(GERMANIUM_BANDGAP);
+        ui->L3_12->setValue(GERMANIUM_EFFECTIVE_DENSITY_OF_STATES_IN_CONDUCTION_BAND);
+        ui->L3_13->setValue(GERMANIUM_EFFECTIVE_DENSITY_OF_STATES_IN_VALANCE_BAND);
+        ui->L3_14->setValue(GERMANIUM_ELECTON_AFFINITY);
+        ui->L3_15->setValue(GERMANIUM_DIELECTRIC_CONSTANT);
+    }
+    else if (semiconductorChoice == "n-GaAs") {
+        ui->L3_10->setValue(GALLIUM_ARSENIDE_ELECTRON_MOBILITY);
+        ui->L3_11->setValue(GALLIUM_ARSENIDE_BANDGAP);
+        ui->L3_12->setValue(GALLIUM_ARSENIDE_EFFECTIVE_DENSITY_OF_STATES_IN_CONDUCTION_BAND);
+        ui->L3_13->setValue(GALLIUM_ARSENIDE_EFFECTIVE_DENSITY_OF_STATES_IN_VALANCE_BAND);
+        ui->L3_14->setValue(GALLIUM_ARSENIDE_ELECTON_AFFINITY);
+        ui->L3_15->setValue(GALLIUM_ARSENIDE_DIELECTRIC_CONSTANT);
+    }
+    else if (semiconductorChoice == "p-GaAs") {
+        ui->L3_10->setValue(GALLIUM_ARSENIDE_HOLE_MOBILITY);
+        ui->L3_11->setValue(GALLIUM_ARSENIDE_BANDGAP);
+        ui->L3_12->setValue(GALLIUM_ARSENIDE_EFFECTIVE_DENSITY_OF_STATES_IN_CONDUCTION_BAND);
+        ui->L3_13->setValue(GALLIUM_ARSENIDE_EFFECTIVE_DENSITY_OF_STATES_IN_VALANCE_BAND);
+        ui->L3_14->setValue(GALLIUM_ARSENIDE_ELECTON_AFFINITY);
+        ui->L3_15->setValue(GALLIUM_ARSENIDE_DIELECTRIC_CONSTANT);
+    }
+
+
+}
+
+// Output Simulation Page
 void SemiconductorDeviceSimulatorDTA::on_AddVgs_clicked() {
     double Vgs = ui->Output_2->value();
     QString VgsSTR = QString::number(Vgs);
@@ -242,7 +442,6 @@ void SemiconductorDeviceSimulatorDTA::on_DeleteVgs_clicked() {
 	// Get the selected item from the list widget
 	QListWidgetItem* selectedItem = ui->VgsList->currentItem();
 
-	// Check if an item is selected
     if (!selectedItem) {
 		QMessageBox::warning(this, "Error", "Please select a Vgs to delete.");
 		return;
@@ -250,26 +449,12 @@ void SemiconductorDeviceSimulatorDTA::on_DeleteVgs_clicked() {
 
 	// Get the name of the selected MOSFET
 	QString Vgs = selectedItem->text();
-
-	// Ask for confirmation
-	QMessageBox::StandardButton reply = QMessageBox::question(this, "Confirmation",
-        		"Are you sure you want to delete the Vgs: " + Vgs + "?",
-        		QMessageBox::Yes | QMessageBox::No);
-
-	// Check the user's response
-    if (reply == QMessageBox::Yes) {
-		// User clicked "Yes," so proceed with deleting the MOSFET
-		delete selectedItem;
-	}
-	// If "No" or the dialog is closed, do nothing
+	delete selectedItem;
 }
 
 
 // Simuation functions
 //This class is used to display images in a popup dialog - it is used to display the simulation results
-#include <QDialog>
-#include <QLabel>
-#include <QVBoxLayout>
 class ImagePopupDialog : public QDialog {
 public:
     ImagePopupDialog(QWidget* parent = nullptr) : QDialog(parent) {
@@ -290,8 +475,6 @@ private:
 };
 
 //this class is used to find the latest image in a directory - it is used to display the latest simulation result
-#include <QDir>
-#include <QFileInfoList>
 QString findLatestImage(const QString& directoryPath) {
     QDir directory(directoryPath);
     directory.setFilter(QDir::Files | QDir::NoDotAndDotDot);
@@ -306,6 +489,7 @@ QString findLatestImage(const QString& directoryPath) {
     return QString();
 }
 
+//This function is used to simulate the MOSFET and display the simulation results
 void SemiconductorDeviceSimulatorDTA::on_OutputSimulateButton_clicked() {
     QListWidgetItem* selectedItem = ui->MosfetList_2->currentItem();
     // Check if an item is selected
@@ -342,6 +526,9 @@ void SemiconductorDeviceSimulatorDTA::on_OutputSimulateButton_clicked() {
         OutputSimulation output(*targetMOSFET, Vmin, Vmax, Vstep, vgsValues);
         output.GraphOutputCurve(level);
     }
+	else {
+		return;
+	}
 
 
     // Specify the directory containing the images
@@ -368,116 +555,4 @@ void SemiconductorDeviceSimulatorDTA::on_OutputSimulateButton_clicked() {
 
 }
 
-#include <fstream>
-#include <QMessageBox>
 
-//This function is used to load the MOSFETs from a file to the running application
-void SemiconductorDeviceSimulatorDTA::on_LoadMOSFETs_clicked() {
-    // Open the JSON file
-    std::ifstream file("mosfets.json");
-
-    if (file.is_open()) {
-        try {
-            // Parse the JSON array from the file
-            nlohmann::json mosfetArray;
-            file >> mosfetArray;
-
-            // Clear existing MOSFETs
-            MOSFET::clearMosfets();
-
-            // Iterate through each JSON object in the array
-            for (const auto& mosfetObject : mosfetArray) {
-                // Extract parameters from the JSON object
-                std::string name = mosfetObject["name"];
-                char type = mosfetObject.value("type", ' ');  // Use ' ' as a placeholder
-                double vt = mosfetObject.value("vt", NULL);   // Use NULL as a placeholder
-                double mobility = mosfetObject.value("mobility", NULL); // Use NULL as a placeholder
-                double cox = mosfetObject.value("cox", NULL); // Use NULL as a placeholder
-                double channelWidth = mosfetObject.value("channelWidth", NULL); // Use NULL as a placeholder
-                double channelLength = mosfetObject.value("channelLength", NULL); // Use NULL as a placeholder
-                double lambda = mosfetObject.value("lambda", NULL); // Use NULL as a placeholder
-
-                // Create a MOSFET object using the extracted parameters
-                MOSFET* mosfet = new MOSFET(name, type, vt, mobility, cox, channelWidth, channelLength, lambda);
-
-                // Add the MOSFET object to the list
-                MOSFET::addMOSFET(mosfet);
-            }
-
-            // Update the UI with the loaded MOSFETs
-            updateUIWithLoadedMOSFETs();
-        }
-        catch (const nlohmann::json::exception& e) {
-            // Handle JSON parsing errors
-            QMessageBox::warning(this, "Error", "Error while parsing MOSFET data: " + QString::fromStdString(e.what()));
-        }
-
-        file.close();
-    }
-    else {
-        // Handle the case where the file couldn't be opened
-        QMessageBox::warning(this, "Error", "Could not open the file for reading.");
-    }
-}
-
-//This function is used to save the MOSFETs from the running application to a file
-void SemiconductorDeviceSimulatorDTA::on_SaveMOSFETs_clicked() {
-    // Check if the JSON file already exists
-    std::ifstream checkFile("mosfets.json");
-    bool fileExists = checkFile.good();
-    checkFile.close();
-
-    // Open the JSON file with binary mode to handle potential encoding issues
-    std::ofstream file("mosfets.json", std::ios::binary);
-
-    if (file.is_open()) {
-        // Create a JSON array
-        nlohmann::json mosfetArray;
-
-        // Iterate through each MOSFET
-        for (MOSFET* mosfet : MOSFET::getMosfets()) {
-            // Create a JSON object for each MOSFET
-            nlohmann::json mosfetObject;
-
-            // Add MOSFET parameters to the JSON object
-            mosfetObject["name"] = mosfet->getName();
-            mosfetObject["type"] = mosfet->getType();
-            mosfetObject["vt"] = mosfet->getVt();
-            mosfetObject["mobility"] = mosfet->getMobility();
-            mosfetObject["cox"] = mosfet->getCox();
-            mosfetObject["channelWidth"] = mosfet->getChannelWidth();
-            mosfetObject["channelLength"] = mosfet->getChannelLength();
-            mosfetObject["lambda"] = mosfet->getLambda();
-
-            // Add the MOSFET JSON object to the array
-            mosfetArray.push_back(mosfetObject);
-        }
-
-        // Save the JSON array to the file
-        file << mosfetArray.dump(4);  // The second argument (4) is for pretty printing
-        file.close();
-
-        if (fileExists) {
-            QMessageBox::information(this, "Success", "MOSFETs saved successfully!");
-        }
-        else {
-            QMessageBox::information(this, "Success", "MOSFETs file created and saved successfully!");
-        }
-    }
-    else {
-        // Handle the case where the file couldn't be opened
-        QMessageBox::warning(this, "Error", "Could not open the file for writing.");
-    }
-}
-
-//This function is used to update the UI with the loaded MOSFETs
-void SemiconductorDeviceSimulatorDTA::updateUIWithLoadedMOSFETs() {
-    // Implement this function to update the UI with loaded MOSFETs
-    // For example, you can populate a list widget with MOSFET names
-    ui->MosfetList->clear();
-    for (const MOSFET* mosfet : MOSFET::getMosfets()) {
-        ui->MosfetList->addItem(QString::fromStdString(mosfet->getName()));
-        ui->MosfetList_2->addItem(QString::fromStdString(mosfet->getName()));
-        ui->MosfetList_3->addItem(QString::fromStdString(mosfet->getName()));
-    }
-}

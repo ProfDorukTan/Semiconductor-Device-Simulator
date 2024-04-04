@@ -12,8 +12,9 @@
 #include "../Parameters/Parameters.h"
 #include "../MOSFET/MOSFET.h"
 
-double Vth_calc(MOSFET mosfet);
-double level3_calc(MOSFET mosfet , double Vgs , double Vds , double Vt);
-void level3_sweep(MOSFET mosfet , std::unordered_map<double , std::vector<double>>& Vgs_Ids_vector , std::vector<double> Vds_vector);
+void Vth_calc(MOSFET &mosfet);
+void Cox_calc(MOSFET &mosfet);
+double level3_calc(MOSFET &mosfet , double Vgs , double Vds , double Vt);
+void level3_sweep(MOSFET &mosfet , std::unordered_map<double , std::vector<double>>& Vgs_Ids_vector , std::vector<double> Vds_vector);
 
 #endif //MAIN_CPP_LEVEL3CALCULATION_H

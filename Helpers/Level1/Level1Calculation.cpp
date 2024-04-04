@@ -9,16 +9,30 @@ double level1_calc(MOSFET mosfet, double Vgs , double Vds) {
     char type = mosfet.getType();
     double Vt = mosfet.getVt() , mobility = mosfet.getMobility() , Cox = mosfet.getCox() ,
     W = mosfet.getChannelWidth() , L = mosfet.getChannelLength();
-    
-    if (Vgs < Vt) {
-        return 0;
-    }
-    else if (Vds <= Vgs - Vt) {
-        return (mobility * Cox * (W / L) * ((Vgs - Vt) * Vds - (pow(Vds , 2) / 2)));
-    }
-    else if (Vds > Vgs - Vt) {
-        return (mobility * Cox * (W / L) / 2 * (pow((Vgs - Vt) , 2)));
-    }
+    if (type == 'N') {
+        if (Vgs < Vt) {
+            return 0;
+        }
+        else if (Vds <= Vgs - Vt) {
+            return (mobility * Cox * (W / L) * ((Vgs - Vt) * Vds - (pow(Vds , 2) / 2)));
+        }
+        else if (Vds > Vgs - Vt) {
+            return (mobility * Cox * (W / L) / 2 * (pow((Vgs - Vt) , 2)));
+        }
+	}
+	else if (type == 'P') {
+		if (Vgs > Vt) {
+			return 0;
+		}
+		else if (Vds >= Vgs - Vt) {
+			return (mobility * Cox * (W / L) * ((Vgs - Vt) * Vds - (pow(Vds , 2) / 2)));
+		}
+		else if (Vds < Vgs - Vt) {
+			return (mobility * Cox * (W / L) / 2 * (pow((Vgs - Vt) , 2)));
+		}
+	}
+	return 0;
+   
 }
 
 void level1_sweep(MOSFET mosfet, std::unordered_map<double, std::vector<double>> &Vgs_Ids_vector, std::vector<double> Vds_vector){

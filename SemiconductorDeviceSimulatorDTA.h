@@ -31,15 +31,13 @@ public:
 private:
     Ui::SemiconductorDeviceSimulatorDTAClass *ui;
 
-    QList<MOSFET*> loadMosfets(const QString& level);
-    void saveMosfets(const QString& level);
-    void saveMosfet(const MOSFET& mosfet, const QString& level);
-
+    //Functions for external save and loads
     void on_SaveMOSFETs_clicked();
     void on_LoadMOSFETs_clicked();
     void updateUIWithLoadedMOSFETs();
     void on_DeleteMosfetButton_clicked();
 
+    //Functions for MOSFET save and loads in the UI
     void on_SaveMosfetLevel1_clicked();
     void on_SaveMosfetLevel2_clicked();
     void on_SaveMosfetLevel3_clicked();
@@ -48,4 +46,8 @@ private:
     void on_AddVgs_clicked();
     void on_DeleteVgs_clicked();
     void on_OutputSimulateButton_clicked();
+
+    //Functions for parameter preloading
+    void on_LoadMetal_clicked();
+    void on_LoadSemiconductor_clicked();
 };

@@ -20,7 +20,7 @@
 
 class OutputSimulation {
 public:
-    OutputSimulation(MOSFET mosfet_par, double Vmin_var, double Vmax_var, double Vstep_var, const std::vector<double> &params_Vgs);
+    OutputSimulation(MOSFET &mosfet_par, double Vmin_var, double Vmax_var, double Vstep_var, const std::vector<double> &params_Vgs);
     const std::unordered_map<double,std::vector<double>> &getParams_Vgs_Ids() const;
     //SIMULATION
     void GenerateOutputCurve(int COMPLEXITY);

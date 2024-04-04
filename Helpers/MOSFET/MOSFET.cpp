@@ -7,11 +7,11 @@
 MOSFET::MOSFET() {}
 
 MOSFET::MOSFET(std::string Name, char type, double vt, double mobility, double cox, double w, double l) :
-        name(Name), Vt(vt), mobility(mobility), Cox(cox), ChannelWidth(w), ChannelLength(l){
+        name(Name), Vt(vt), Mobility(mobility), Cox(cox), ChannelWidth(w), ChannelLength(l){
     setType(type);
 }
 MOSFET::MOSFET(std::string Name, char type, double vt, double mobility, double cox, double w, double l, double lambda) :
-         name(Name), Vt(vt), mobility(mobility), Cox(cox), ChannelWidth(w), ChannelLength(l), Lambda(lambda) {
+         name(Name), Vt(vt), Mobility(mobility), Cox(cox), ChannelWidth(w), ChannelLength(l), Lambda(lambda) {
     setType(type);
 }
 
@@ -35,6 +35,7 @@ MOSFET::MOSFET(std::string name, char type, double mobility, double w, double l,
     setOxideThickness(oxideThickness);
     setOxidePermittivity(oxidePermittivity);
     setOxideTrappedCharge(oxideTrappedCharge);
+    setTemperature(temperature);
 }
 
 //GETTER & SETTER FUNCTIONS for the class
@@ -59,135 +60,129 @@ void MOSFET::setType(char type) {
         throw std::invalid_argument("Invalid MOSFET type. Type must be 'N' or 'P'.");
     }
 }
-double MOSFET::getTempK() const {
-    return tempK;
-}
-void MOSFET::setTempK(double tempK) {
-    MOSFET::tempK = tempK;
-}
 double MOSFET::getVt() const {
-    return Vt;
+    return MOSFET::Vt;
 }
 void MOSFET::setVt(double vt) {
-    Vt = vt;
+    MOSFET::Vt = vt;
 }
 double MOSFET::getMobility() const {
-    return mobility;
+    return MOSFET::Mobility;
 }
 void MOSFET::setMobility(double mobility) {
-    MOSFET::mobility = mobility;
+    MOSFET::Mobility = mobility;
 }
 double MOSFET::getCox() const {
-    return Cox;
+    return MOSFET::Cox;
 }
 void MOSFET::setCox(double cox) {
-    Cox = cox;
+    MOSFET::Cox = cox;
 }
 double MOSFET::getChannelWidth() const {
-    return ChannelWidth;
+    return MOSFET::ChannelWidth;
 }
 void MOSFET::setChannelWidth(double channelWidth) {
-    ChannelWidth = channelWidth;
+    MOSFET::ChannelWidth = channelWidth;
 }
 double MOSFET::getChannelLength() const {
-    return ChannelLength;
+    return MOSFET::ChannelLength;
 }
 void MOSFET::setChannelLength(double channelLength) {
-    ChannelLength = channelLength;
+    MOSFET::ChannelLength = channelLength;
 }
 double MOSFET::getLambda() const {
-    return Lambda;
+    return MOSFET::Lambda;
 }
 void MOSFET::setLambda(double lambda) {
-    Lambda = lambda;
+    MOSFET::Lambda = lambda;
 }
 double MOSFET::getMetalWorkFunction() const
 {
-    return metalWorkFunction;
+    return MOSFET::MetalWorkFunction;
 }
 void MOSFET::setMetalWorkFunction(double MetalWorkFunction)
 {
-	MetalWorkFunction = metalWorkFunction;
+    MOSFET::MetalWorkFunction = MetalWorkFunction;
 }
 double MOSFET::getSemiconductorBandgap() const
 {
-	return semiconductorBandgap;
+	return MOSFET::SemiconductorBandgap;
 }
 void MOSFET::setSemiconductorBandgap(double SemiconductorBandgap)
 {
-	SemiconductorBandgap = semiconductorBandgap;
+    MOSFET::SemiconductorBandgap = SemiconductorBandgap;
 }
 double MOSFET::getSemiconductorElectronAffinity() const
 {
-	return semiconductorElectronAffinity;
+	return MOSFET::SemiconductorElectronAffinity;
 }
 void MOSFET::setSemiconductorElectronAffinity(double SemiconductorElectronAffinity)
 {
-	SemiconductorElectronAffinity = semiconductorElectronAffinity;
+    MOSFET::SemiconductorElectronAffinity = SemiconductorElectronAffinity;
 }
 double MOSFET::getSemiconductorDopingConcentration() const
 {
-	return semiconductorDopingConcentration;
+	return MOSFET::SemiconductorDopingConcentration;
 }
 void MOSFET::setSemiconductorDopingConcentrationn(double DopingConcentration)
 {
-	DopingConcentration = semiconductorDopingConcentration;
+	MOSFET::SemiconductorDopingConcentration = DopingConcentration;
 }
 double MOSFET::getSemiconductorPermittivity() const
 {
-	return semiconductorPermittivity;
+	return MOSFET::SemiconductorPermittivity;
 }
 void MOSFET::setSemiconductorPermittivity(double SemiconductorPermittivity)
 {
-	SemiconductorPermittivity = semiconductorPermittivity;
+    MOSFET::SemiconductorPermittivity = SemiconductorPermittivity;
 }
 double MOSFET::getOxideThickness() const
 {
-	return oxideThickness;
+	return MOSFET::OxideThickness;
 }
 void MOSFET::setOxideThickness(double OxideThickness)
 {
-	OxideThickness = oxideThickness;
+	MOSFET::OxideThickness = OxideThickness;
 }
 double MOSFET::getOxidePermittivity() const
 {
-	return oxidePermittivity;
+	return MOSFET::OxidePermittivity;
 }
 void MOSFET::setOxidePermittivity(double OxidePermittivity)
 {
-	OxidePermittivity = oxidePermittivity;
+	MOSFET::OxidePermittivity = OxidePermittivity;
 }
 double MOSFET::getOxideTrappedCharge() const
 {
-	return oxideTrappedCharge;
+	return MOSFET::OxideTrappedCharge;
 }
 void MOSFET::setOxideTrappedCharge(double OxideTrappedCharge)
 {
-	OxideTrappedCharge = oxideTrappedCharge;
+	MOSFET::OxideTrappedCharge = OxideTrappedCharge;
 }
 double MOSFET::getTemperature() const
 {
-	return temperature;
+	return MOSFET::Temperature;
 }
 void MOSFET::setTemperature(double Temperature)
 {
-	Temperature = temperature;
+	MOSFET::Temperature = Temperature;
 }
 double MOSFET::getEffectiveDensityOfStatesInConductionBand() const
 {
-	return effectiveDensityOfStatesInConductionBand;
+	return MOSFET::EffectiveDensityOfStatesInConductionBand;
 }
 void MOSFET::setEffectiveDensityOfStatesInConductionBand(double EffectiveDensityOfStatesInConductionBand)
 {
-	EffectiveDensityOfStatesInConductionBand = effectiveDensityOfStatesInConductionBand;
+	MOSFET::EffectiveDensityOfStatesInConductionBand = EffectiveDensityOfStatesInConductionBand;
 }
 double MOSFET::getEffectiveDensityOfStatesInValenceBand() const
 {
-	return effectiveDensityOfStatesInValenceBand;
+	return MOSFET::EffectiveDensityOfStatesInValenceBand;
 }
 void MOSFET::setEffectiveDensityOfStatesInValenceBand(double EffectiveDensityOfStatesInValenceBand)
 {
-	EffectiveDensityOfStatesInValenceBand = effectiveDensityOfStatesInValenceBand;
+	MOSFET::EffectiveDensityOfStatesInValenceBand = EffectiveDensityOfStatesInValenceBand;
 }
 
 

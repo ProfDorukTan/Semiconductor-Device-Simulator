@@ -68,7 +68,7 @@ void OutputSimulation::GraphOutputCurve(int COMPLEXITY) {
     // GRAPHING CURVES
 
     // Graph Title
-    std::string NameString = "Output Curve - " + mosfet_.getName() + " - Vgs:";
+    std::string NameString = "Output Curve - " + mosfet_.getName() + "Vth=" + std::to_string(mosfet_.getVt()) + " - Vgs:";
 
     // Store vgs_pair.first values in a temporary container
     std::vector<double> vgs_values;

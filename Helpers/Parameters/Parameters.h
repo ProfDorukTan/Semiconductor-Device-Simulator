@@ -8,10 +8,14 @@
 #include "cmath"
 
 const double ELEMENTARY_CHARGE = (1.602 * pow(10,-19));			//C
-const double BOLTZMANN_CONSTANT = (8.6173303 * pow(10, -5));	//eV/K
+const double BOLTZMANN_CONSTANT = (1.380649 * pow(10, -23));	//J/K
 const double PLANCK_CONSTANT = (4.135667696 * pow(10, -15));	//eV*s
 const double PI = 3.14159265358979323846;
 const double EULERS_NUMBER = 2.71828182845904523536;
+const double ROOM_TEMPERATURE = 300;	//K
+const double THERMAL_VOLTAGE_ROOM_TEMPERATURE = (BOLTZMANN_CONSTANT * ROOM_TEMPERATURE) / ELEMENTARY_CHARGE;	//V
+const double VACUUM_PERMITTIVITY = (8.8541878128 * pow(10, -12));	//F/m
+
 
 const int imageW = 1200;
 const int imageL = 800;

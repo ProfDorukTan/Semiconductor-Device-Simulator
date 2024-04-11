@@ -4,7 +4,7 @@
 
 #include "Level3Calculation.h"
 void Vth_calc(MOSFET &mosfet) {
-    // !Most potential parameters are defined in eV instead of V!
+    //FIXME: ADD TEMPERATURE DEPENDENCY TO N_c AND N_v
     char type = mosfet.getType();
     double phi_m = mosfet.getMetalWorkFunction(), Eg_s = mosfet.getSemiconductorBandgap(),
 		chi_s = mosfet.getSemiconductorElectronAffinity(), N_s = mosfet.getSemiconductorDopingConcentration(),
@@ -12,16 +12,20 @@ void Vth_calc(MOSFET &mosfet) {
 		epsilon_ox = mosfet.getOxidePermittivity(), Q_ox = mosfet.getOxideTrappedCharge(), 
         temperature = mosfet.getTemperature(), N_c = mosfet.getEffectiveDensityOfStatesInConductionBand(), N_v = mosfet.getEffectiveDensityOfStatesInValenceBand();
     double Vth;
-
-    double n_i = sqrt(N_c * N_v * pow(EULERS_NUMBER, (-1 * Eg_s) / (BOLTZMANN_CONSTANT * temperature)));
+    
+    double n_i = sqrt(N_c * N_v * pow((temperature/ROOM_TEMPERATURE), 3) * pow(EULERS_NUMBER, ((-1 * Eg_s) / ((THERMAL_VOLTAGE_ROOM_TEMPERATURE * (temperature / ROOM_TEMPERATURE))))));
 
     if (type == 'N') {
-        double phi_fn = (BOLTZMANN_CONSTANT * temperature) * log(N_s / n_i); // Calculated in eV
-		Vth = (phi_m - ((Eg_s / 2) + phi_fn + chi_s) + 2 * phi_fn) / (1) + ((t_ox / epsilon_ox) * sqrt(ELEMENTARY_CHARGE * N_s * 4 * epsilon_s * phi_fn));
+        double phi_fn = THERMAL_VOLTAGE_ROOM_TEMPERATURE * log(N_s / n_i);
+        double phi_ms = phi_m - ((Eg_s / (2)) + phi_fn + chi_s); 
+        double space_charge = sqrt(abs(4 * epsilon_s * VACUUM_PERMITTIVITY * phi_fn / (ELEMENTARY_CHARGE * N_s)));
+		Vth = phi_ms + 2 * phi_fn + ((t_ox / epsilon_ox) * (abs(ELEMENTARY_CHARGE * N_s * space_charge) - Q_ox));    //phi_ms + 2phi_fn + V_ox
 	}
     else if (type == 'P') {// FIXME: Check the equations
-        double phi_fp = (BOLTZMANN_CONSTANT * temperature / ELEMENTARY_CHARGE) * log(n_i / N_s);
-        Vth = phi_m - (Eg_s / (2 * ELEMENTARY_CHARGE) + phi_fp + chi_s) + 2 * phi_fp + ((t_ox / epsilon_ox) * sqrt(ELEMENTARY_CHARGE * N_s * 4 * epsilon_s * phi_fp));
+        double phi_fp = THERMAL_VOLTAGE_ROOM_TEMPERATURE * log(n_i / N_s);
+        double phi_ms = phi_m - ((Eg_s / (2)) + phi_fp + chi_s);
+        double space_charge = sqrt(abs(4 * epsilon_s * VACUUM_PERMITTIVITY * phi_fp / (ELEMENTARY_CHARGE * N_s)));
+        Vth = phi_ms + 2 * phi_fp + ((t_ox / epsilon_ox) * (abs(ELEMENTARY_CHARGE * N_s * space_charge) - Q_ox));    //phi_ms + 2phi_fp + V_ox
     }
     mosfet.setVt(Vth);
 }
@@ -46,14 +50,14 @@ double level3_calc(MOSFET &mosfet , double Vgs , double Vds, double Vt) {
         }
     }
     else if (type == 'P') {// FIXME: Check the equations
-		if (Vgs < Vt) {
+		if (Vgs < abs(Vt)) {
 			return 0;
 		}
-		else if (Vds >= Vgs - Vt) {
-			return (mobility * Cox * (W / L) * ((Vgs - Vt) * Vds - (pow(Vds , 2) / 2)));
+		else if (Vds <= abs(Vgs - Vt)) {
+			return -1 * (mobility * Cox * (W / L) * ((Vgs - Vt) * Vds - (pow(Vds , 2) / 2)));
 		}
-		else if (Vds < Vgs - Vt) {
-			return (mobility * Cox * (W / L) / 2 * (pow((Vgs - Vt) , 2)));
+		else if (Vds > abs(Vgs - Vt)) {
+			return -1 * (mobility * Cox * (W / L) / 2 * (pow((Vgs - Vt) , 2)));
 		}
 	}
 }

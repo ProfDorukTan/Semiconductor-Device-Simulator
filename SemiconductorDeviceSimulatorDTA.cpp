@@ -285,7 +285,7 @@ void SemiconductorDeviceSimulatorDTA::on_SaveMosfetLevel3_clicked() {
     double effectiveDensityOfStatesInValenceBand = (ui->L3_13->value()) * pow(10, 19); // Effective Density of States in Valence Band
     double semiconductorElectronAffinity = ui->L3_14->value(); // Semiconductor Electron Affinity
     double semiconductorPermittivity = ui->L3_15->value(); // Semiconductor Permittivity
-    double semiconductorDopingConcentration = ui->L3_16->value(); // Semiconductor Doping Concentration
+    double semiconductorDopingConcentration = ui->L3_16->value() * pow(10, 14); // Semiconductor Doping Concentration
 
 
     // Validate MOSFET Name
@@ -311,6 +311,7 @@ void SemiconductorDeviceSimulatorDTA::on_SaveMosfetLevel3_clicked() {
         QMessageBox::warning(this, "Duplicate Name", "MOSFET with the same name already exists.");
         return; // Don't proceed with adding the MOSFET
     }
+    
 
     // Create an instance of MOSFET for Level 3
     MOSFET* mosfet = new MOSFET(name.toStdString(), channel.at(0).toLatin1(), mobility, w, l, metalWorkFunction, 
@@ -365,7 +366,13 @@ void SemiconductorDeviceSimulatorDTA::on_LoadMetal_clicked() {
 
 void SemiconductorDeviceSimulatorDTA::on_LoadSemiconductor_clicked() {
     QString semiconductorChoice = ui->SemiconductorList->currentText();
+    QString channel = ui->L3_2->currentText();     //MOSFET Channel type to avoid same channel same bulk
+
     if (semiconductorChoice == "n-Si") {
+        if (channel == 'N') {
+            QMessageBox::warning(this, "Error", "Channel and bulk must be different");
+            return; // Stop further processing
+        }
         ui->L3_10->setValue(SILICON_ELECTRON_MOBILITY);
         ui->L3_11->setValue(SILICON_BANDGAP);
         ui->L3_12->setValue(SILICON_EFFECTIVE_DENSITY_OF_STATES_IN_CONDUCTION_BAND);
@@ -374,6 +381,10 @@ void SemiconductorDeviceSimulatorDTA::on_LoadSemiconductor_clicked() {
         ui->L3_15->setValue(SILICON_DIELECTRIC_CONSTANT);
     }
     else if (semiconductorChoice == "p-Si") {
+        if (channel == 'P') {
+            QMessageBox::warning(this, "Error", "Channel and bulk must be different");
+            return; // Stop further processing
+        }
         ui->L3_10->setValue(SILICON_HOLE_MOBILITY);
         ui->L3_11->setValue(SILICON_BANDGAP);
         ui->L3_12->setValue(SILICON_EFFECTIVE_DENSITY_OF_STATES_IN_CONDUCTION_BAND);
@@ -382,6 +393,10 @@ void SemiconductorDeviceSimulatorDTA::on_LoadSemiconductor_clicked() {
         ui->L3_15->setValue(SILICON_DIELECTRIC_CONSTANT);
     }
     else if (semiconductorChoice == "n-Ge") {
+        if (channel == 'N') {
+            QMessageBox::warning(this, "Error", "Channel and bulk must be different");
+            return; // Stop further processing
+        }
         ui->L3_10->setValue(GERMANIUM_ELECTRON_MOBILITY);
         ui->L3_11->setValue(GERMANIUM_BANDGAP);
         ui->L3_12->setValue(GERMANIUM_EFFECTIVE_DENSITY_OF_STATES_IN_CONDUCTION_BAND);
@@ -390,6 +405,10 @@ void SemiconductorDeviceSimulatorDTA::on_LoadSemiconductor_clicked() {
         ui->L3_15->setValue(GERMANIUM_DIELECTRIC_CONSTANT);
     }
     else if (semiconductorChoice == "p-Ge") {
+        if (channel == 'P') {
+            QMessageBox::warning(this, "Error", "Channel and bulk must be different");
+            return; // Stop further processing
+        }
         ui->L3_10->setValue(GERMANIUM_HOLE_MOBILITY);
         ui->L3_11->setValue(GERMANIUM_BANDGAP);
         ui->L3_12->setValue(GERMANIUM_EFFECTIVE_DENSITY_OF_STATES_IN_CONDUCTION_BAND);
@@ -398,6 +417,10 @@ void SemiconductorDeviceSimulatorDTA::on_LoadSemiconductor_clicked() {
         ui->L3_15->setValue(GERMANIUM_DIELECTRIC_CONSTANT);
     }
     else if (semiconductorChoice == "n-GaAs") {
+        if (channel == 'N') {
+            QMessageBox::warning(this, "Error", "Channel and bulk must be different");
+            return; // Stop further processing
+        }
         ui->L3_10->setValue(GALLIUM_ARSENIDE_ELECTRON_MOBILITY);
         ui->L3_11->setValue(GALLIUM_ARSENIDE_BANDGAP);
         ui->L3_12->setValue(GALLIUM_ARSENIDE_EFFECTIVE_DENSITY_OF_STATES_IN_CONDUCTION_BAND);
@@ -406,6 +429,10 @@ void SemiconductorDeviceSimulatorDTA::on_LoadSemiconductor_clicked() {
         ui->L3_15->setValue(GALLIUM_ARSENIDE_DIELECTRIC_CONSTANT);
     }
     else if (semiconductorChoice == "p-GaAs") {
+        if (channel == 'P') {
+            QMessageBox::warning(this, "Error", "Channel and bulk must be different");
+            return; // Stop further processing
+        }
         ui->L3_10->setValue(GALLIUM_ARSENIDE_HOLE_MOBILITY);
         ui->L3_11->setValue(GALLIUM_ARSENIDE_BANDGAP);
         ui->L3_12->setValue(GALLIUM_ARSENIDE_EFFECTIVE_DENSITY_OF_STATES_IN_CONDUCTION_BAND);

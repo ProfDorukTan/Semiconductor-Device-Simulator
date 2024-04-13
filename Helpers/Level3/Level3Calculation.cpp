@@ -62,7 +62,7 @@ double level3_calc(MOSFET &mosfet , double Vgs , double Vds, double Vt) {
 	}
 }
 
-void level3_sweep(MOSFET &mosfet , std::unordered_map<double , std::vector<double>>& Vgs_Ids_vector , std::vector<double> Vds_vector) {
+void level3_sweep_output(MOSFET &mosfet , std::unordered_map<double , std::vector<double>>& Vgs_Ids_vector , std::vector<double> Vds_vector) {
     // Iterate vgs values
     Vth_calc(mosfet);
     Cox_calc(mosfet);
@@ -73,6 +73,21 @@ void level3_sweep(MOSFET &mosfet , std::unordered_map<double , std::vector<doubl
         for (const auto vds : Vds_vector)
         {
             Vgs_Ids_vector[vgs].push_back(level3_calc(mosfet , vgs , vds, mosfet.getVt()));
+        }
+    }
+}
+
+void level3_sweep_transfer(MOSFET &mosfet , std::unordered_map<double , std::vector<double>>& Vds_Ids_vector , std::vector<double> Vgs_vector) {
+    // Iterate vgs values
+    Vth_calc(mosfet);
+    Cox_calc(mosfet);
+    for (const auto vds_Ids_pair : Vds_Ids_vector)
+    {
+        double vds = vds_Ids_pair.first;
+        // Iterate vds values
+        for (const auto vgs : Vgs_vector)
+        {
+            Vds_Ids_vector[vds].push_back(level3_calc(mosfet , vgs , vds, mosfet.getVt()));
         }
     }
 }

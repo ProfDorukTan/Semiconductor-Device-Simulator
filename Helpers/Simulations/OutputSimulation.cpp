@@ -47,15 +47,15 @@ void OutputSimulation::GenerateOutputCurve(int COMPLEXITY) {
     // Generate Ids values according to complexity value
     switch(COMPLEXITY) {
         case 1:
-            level1_sweep(mosfet_, Params_Vgs_Ids_, Params_Vds_);
+            level1_sweep_output(mosfet_, Params_Vgs_Ids_, Params_Vds_);
             break;
 
         case 2:
-            level2_sweep(mosfet_, Params_Vgs_Ids_, Params_Vds_);
+            level2_sweep_output(mosfet_, Params_Vgs_Ids_, Params_Vds_);
             break;
 
         case 3:
-            level3_sweep(mosfet_, Params_Vgs_Ids_, Params_Vds_);
+            level3_sweep_output(mosfet_, Params_Vgs_Ids_, Params_Vds_);
             break;
 
         default:

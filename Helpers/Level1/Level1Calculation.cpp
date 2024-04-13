@@ -35,7 +35,7 @@ double level1_calc(MOSFET mosfet, double Vgs , double Vds) {
    
 }
 
-void level1_sweep(MOSFET mosfet, std::unordered_map<double, std::vector<double>> &Vgs_Ids_vector, std::vector<double> Vds_vector){
+void level1_sweep_output(MOSFET mosfet, std::unordered_map<double, std::vector<double>> &Vgs_Ids_vector, std::vector<double> Vds_vector){
     // Iterate vgs values
     for (const auto vgs_Ids_pair : Vgs_Ids_vector)
     {
@@ -44,6 +44,19 @@ void level1_sweep(MOSFET mosfet, std::unordered_map<double, std::vector<double>>
         for (const auto vds : Vds_vector)
         {
             Vgs_Ids_vector[vgs].push_back(level1_calc(mosfet, vgs, vds));
+        }
+    }
+}
+
+void level1_sweep_transfer(MOSFET mosfet , std::unordered_map<double , std::vector<double>>& Vds_Ids_vector , std::vector<double> Vgs_vector) {
+    // Iterate vgs values
+    for (const auto vds_Ids_pair : Vds_Ids_vector)
+    {
+        double vds = vds_Ids_pair.first;
+        // Iterate vds values
+        for (const auto vgs : Vgs_vector)
+        {
+            Vds_Ids_vector[vds].push_back(level1_calc(mosfet , vgs , vds));
         }
     }
 }

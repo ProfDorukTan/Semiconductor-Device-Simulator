@@ -15,27 +15,16 @@ This is a simple simulator for semiconductor devices. It is based on the drift-d
 		- Run the application again
 		- The MOSFET should be loaded from the file, but it can not be properly simulated
 
-2. **Issue 2:** P-Channel equations are not working correctly.
-	- The equations for the P-Channel are not working correctly. The equations are not implemented correctly.
-	- Steps to reproduce:
-		- Run the application
-		- Add a P-Channel MOSFET
-		- The simulation should not work correctly
-	
 
 	
-3. **NOTES**
+**NOTES**
 	- Program should be dumbproof
 	- Flowchart for the program
 
-3. ASK LESZEK
-	- Field effect mobility can not be measured before MOS manufacture, so in the model we will use majority carrier mobility. For N-type, electron mobility and for P-type, hole mobility.
-	- In threshold voltage equation, I have defined work function, bandgap, fermi potential, electron affinity all in eV, but the output is V?
 
-4. Dissertation To-do
+**Dissertation To-do**
 	- How did you implement software
 	- What is the novel thing about this software
 	- Why would you use it (for whom)
 	- mention u published in journal aybuke 
-	- Don't let p-si to be chosen w p type
 	- make font bigger

@@ -1,13 +1,5 @@
 #include "SemiconductorDeviceSimulatorDTA.h"
-#include "Helpers/Parameters/Parameters.h"
 
-#include <fstream>
-#include <QMessageBox>
-#include <QDialog>
-#include <QLabel>
-#include <QVBoxLayout>
-#include <QDir>
-#include <QFileInfoList>
 
 SemiconductorDeviceSimulatorDTA::SemiconductorDeviceSimulatorDTA(QWidget* parent)
     : QMainWindow(parent)
@@ -493,44 +485,6 @@ void SemiconductorDeviceSimulatorDTA::on_DeleteVgs_clicked() {
 	delete selectedItem;
 }
 
-
-// Simuation functions
-//This class is used to display images in a popup dialog - it is used to display the simulation results
-class ImagePopupDialog : public QDialog {
-public:
-    ImagePopupDialog(QWidget* parent = nullptr) : QDialog(parent) {
-        setWindowTitle("Simulation Result");
-        QVBoxLayout* layout = new QVBoxLayout(this);
-        imageLabel = new QLabel(this);
-        layout->addWidget(imageLabel);
-    }
-
-    void setImage(const QPixmap& pixmap) {
-        imageLabel->setPixmap(pixmap);
-        imageLabel->setScaledContents(true);
-        adjustSize();
-    }
-
-private:
-    QLabel* imageLabel;
-};
-
-//this class is used to find the latest image in a directory - it is used to display the latest simulation result
-QString findLatestImage(const QString& directoryPath) {
-    QDir directory(directoryPath);
-    directory.setFilter(QDir::Files | QDir::NoDotAndDotDot);
-    directory.setSorting(QDir::Time);
-
-    QFileInfoList fileList = directory.entryInfoList();
-    for (const QFileInfo& fileInfo : fileList) {
-        if (fileInfo.suffix().toLower() == "png") {
-            return fileInfo.absoluteFilePath();
-        }
-    }
-    return QString();
-}
-
-//This function is used to simulate the MOSFET and display the simulation results
 void SemiconductorDeviceSimulatorDTA::on_OutputSimulateButton_clicked() {
     QListWidgetItem* selectedItem = ui->MosfetList_2->currentItem();
     // Check if an item is selected
@@ -567,9 +521,9 @@ void SemiconductorDeviceSimulatorDTA::on_OutputSimulateButton_clicked() {
         OutputSimulation output(*targetMOSFET, Vmin, Vmax, Vstep, vgsValues);
         output.GraphOutputCurve(level);
     }
-	else {
-		return;
-	}
+    else {
+        return;
+    }
 
 
     // Specify the directory containing the images
@@ -593,7 +547,80 @@ void SemiconductorDeviceSimulatorDTA::on_OutputSimulateButton_clicked() {
     dialog->setImage(image);
     dialog->exec();
     delete dialog; // Ensure cleanup after the dialog is closed
-
 }
 
+// Transfer Simulation Page
+void SemiconductorDeviceSimulatorDTA::on_AddVds_clicked() {
+	double Vds = ui->Output_6->value();
+	QString VdsSTR = QString::number(Vds);
+	// Create an instance of MOSFET (you need to define the MOSFET class)
+	bool isDuplicate = false;
+	for (int i = 0; i < ui->VdsList->count(); ++i) {
+		QListWidgetItem* item = ui->VdsList->item(i);
+		if (item && item->text() == VdsSTR) {
+			isDuplicate = true;
+			break;
+		}
+	}
+	if (isDuplicate) {
+		// Display a message or take appropriate action for duplicate name
+		QMessageBox::warning(this, "Duplicate Vds", "Duplicate Vds");
+		return; // Don't proceed with adding the MOSFET
+	}
+	ui->VdsList->addItem(VdsSTR);
+}
 
+void SemiconductorDeviceSimulatorDTA::on_DeleteVds_clicked() {
+	// Get the selected item from the list widget
+	QListWidgetItem* selectedItem = ui->VdsList->currentItem();
+
+	if (!selectedItem) {
+		QMessageBox::warning(this, "Error", "Please select a Vds to delete.");
+		return;
+	}
+
+	// Get the name of the selected MOSFET
+	QString Vds = selectedItem->text();
+	delete selectedItem;
+}
+
+void SemiconductorDeviceSimulatorDTA::on_TransferSimulateButton_clicked(){
+QListWidgetItem* selectedItem = ui->MosfetList_3->currentItem();
+    // Check if an item is selected
+    if (!selectedItem) {
+        QMessageBox::warning(this, "Error", "Please select a MOSFET to Simulate.");
+        return;
+    }
+    // Get the name of the selected MOSFET
+    QString mosfetName = selectedItem->text();
+
+    // Ask for confirmation
+    QMessageBox::StandardButton reply = QMessageBox::question(this, "Confirmation",
+        "Are you sure you want to Simulate the MOSFET: " + mosfetName + "?",
+        QMessageBox::Yes | QMessageBox::No);
+    // Check the user's response
+    if (reply == QMessageBox::Yes) {
+        double Vmin = ui->Output_8->value();
+        double Vmax = ui->Output_9->value();
+        double Vstep = ui->Output_10->value();
+        int level = ui->Output_7->value();
+        if (((Vmin > Vmax) && (Vstep > 0)) || (Vmin < Vmax) && (Vstep < 0)) {
+            QMessageBox::warning(this, "Error", "Vmin-Vmax-Vstep sign mismatch");
+            return;
+        }
+        std::vector<double> vdsValues;
+        for (int i = 0; i < ui->VdsList->count(); ++i) {
+            QString itemText = ui->VdsList->item(i)->text();
+            double value = itemText.toDouble();
+            vdsValues.push_back(value);
+        }
+
+        std::string targetName = mosfetName.toStdString();
+        MOSFET* targetMOSFET = MOSFET::getMOSFETByName(targetName);
+        TransferSimulation output(*targetMOSFET, Vmin, Vmax, Vstep, vdsValues);
+        output.GraphTransferCurve(level);
+    }
+    else {
+        return;
+    }
+}

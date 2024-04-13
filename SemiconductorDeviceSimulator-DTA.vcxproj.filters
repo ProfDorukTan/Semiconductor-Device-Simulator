@@ -106,7 +106,7 @@
     <ClCompile Include="Helpers\Level6\Level6Calculation.cpp">
       <Filter>Header Files\Models</Filter>
     </ClCompile>
-    <ClCompile Include="TransferSimulation.cpp">
+    <ClCompile Include="Helpers\Simulations\TransferSimulation.cpp">
       <Filter>Header Files\Simulators</Filter>
     </ClCompile>
   </ItemGroup>
@@ -187,7 +187,7 @@
     <ClInclude Include="Helpers\Level6\Level6Calculation.h">
       <Filter>Header Files\Models</Filter>
     </ClInclude>
-    <ClInclude Include="TransferSimulation.h">
+    <ClInclude Include="Helpers\Simulations\TransferSimulation.h">
       <Filter>Header Files\Simulators</Filter>
     </ClInclude>
   </ItemGroup>

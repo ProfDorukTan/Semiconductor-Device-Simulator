@@ -30,7 +30,7 @@
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>0</number>
     </property>
     <property name="documentMode">
      <bool>true</bool>
@@ -130,7 +130,7 @@
        </font>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="tabWidgetPage1">
        <attribute name="title">
@@ -3263,7 +3263,7 @@
       </property>
       <layout class="QGridLayout" name="gridLayout_7">
        <item row="4" column="0" colspan="2">
-        <widget class="QListWidget" name="VgsList_2">
+        <widget class="QListWidget" name="VdsList">
          <property name="font">
           <font>
            <pointsize>12</pointsize>

@@ -89,6 +89,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="TransferSimulation.cpp" />
     <QtRcc Include="SemiconductorDeviceSimulatorDTA.qrc" />
     <QtUic Include="SemiconductorDeviceSimulatorDTA.ui" />
     <QtMoc Include="SemiconductorDeviceSimulatorDTA.h" />
@@ -139,6 +140,7 @@
     <ClInclude Include="Helpers\Support\Plot\supportLib.h" />
     <ClInclude Include="Helpers\Support\STRING_TO_WIDECHAR.h" />
     <ClInclude Include="Helpers\Support\Timer.h" />
+    <ClInclude Include="TransferSimulation.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

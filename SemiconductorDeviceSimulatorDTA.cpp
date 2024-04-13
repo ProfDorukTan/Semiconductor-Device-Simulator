@@ -352,6 +352,20 @@ void SemiconductorDeviceSimulatorDTA::on_DeleteMosfetButton_clicked() {
         MOSFET* targetMOSFET = MOSFET::getMOSFETByName(targetName);
         delete targetMOSFET;
 
+        // Remove the corresponding items from MosfetList2 and MosfetList3
+        for (int i = 0; i < ui->MosfetList_2->count(); ++i) {
+            if (ui->MosfetList_2->item(i)->text() == mosfetName) {
+                delete ui->MosfetList_2->takeItem(i);
+                break;
+            }
+        }
+
+        for (int i = 0; i < ui->MosfetList_3->count(); ++i) {
+            if (ui->MosfetList_3->item(i)->text() == mosfetName) {
+                delete ui->MosfetList_3->takeItem(i);
+                break;
+            }
+        }
     }
     // If "No" or the dialog is closed, do nothing
 }

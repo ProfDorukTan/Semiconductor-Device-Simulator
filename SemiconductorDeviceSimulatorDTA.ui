@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1751</width>
+    <width>1755</width>
     <height>917</height>
    </rect>
   </property>
@@ -18,7 +18,7 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>10</y>
+      <y>50</y>
       <width>1741</width>
       <height>851</height>
      </rect>
@@ -2122,13 +2122,13 @@
               </font>
              </property>
              <property name="decimals">
-              <number>2</number>
+              <number>3</number>
              </property>
              <property name="minimum">
               <double>0.010000000000000</double>
              </property>
              <property name="maximum">
-              <double>99999999.000000000000000</double>
+              <double>1000000000.000000000000000</double>
              </property>
              <property name="singleStep">
               <double>0.010000000000000</double>
@@ -2137,7 +2137,47 @@
               <enum>QAbstractSpinBox::DefaultStepType</enum>
              </property>
              <property name="value">
-              <double>50.000000000000000</double>
+              <double>12.000000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_69">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>30</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;For detailed explanation and derivation check dissertation.&lt;/p&gt;&lt;p&gt;Value input in this field will be multiplied by 10&lt;span style=&quot; vertical-align:super;&quot;&gt;15&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="text">
+              <string>nm</string>
+             </property>
+             <property name="textFormat">
+              <enum>Qt::PlainText</enum>
+             </property>
+             <property name="scaledContents">
+              <bool>true</bool>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+             <property name="wordWrap">
+              <bool>true</bool>
              </property>
             </widget>
            </item>
@@ -2159,10 +2199,10 @@
               <double>1.000000000000000</double>
              </property>
              <property name="maximum">
-              <double>99999999.000000000000000</double>
+              <double>1000000000.000000000000000</double>
              </property>
              <property name="singleStep">
-              <double>0.010000000000000</double>
+              <double>1.000000000000000</double>
              </property>
              <property name="stepType">
               <enum>QAbstractSpinBox::DefaultStepType</enum>
@@ -2477,7 +2517,7 @@
               <double>1.000000000000000</double>
              </property>
              <property name="maximum">
-              <double>99999999.000000000000000</double>
+              <double>1000000000.000000000000000</double>
              </property>
              <property name="singleStep">
               <double>1.000000000000000</double>
@@ -2548,7 +2588,7 @@
               <double>0.000000000000000</double>
              </property>
              <property name="maximum">
-              <double>99999999.000000000000000</double>
+              <double>100000000.000000000000000</double>
              </property>
              <property name="singleStep">
               <double>0.010000000000000</double>
@@ -2557,7 +2597,7 @@
               <enum>QAbstractSpinBox::DefaultStepType</enum>
              </property>
              <property name="value">
-              <double>1.000000000000000</double>
+              <double>10.000000000000000</double>
              </property>
             </widget>
            </item>
@@ -2974,7 +3014,7 @@
           <number>1</number>
          </property>
          <property name="maximum">
-          <number>3</number>
+          <number>40</number>
          </property>
          <property name="value">
           <number>3</number>
@@ -3188,12 +3228,63 @@
        </item>
        <item row="9" column="0" colspan="2">
         <widget class="QPushButton" name="OutputSimulate">
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>Simulate</string>
          </property>
         </widget>
        </item>
       </layout>
+     </widget>
+     <widget class="QLabel" name="label_67">
+      <property name="geometry">
+       <rect>
+        <x>670</x>
+        <y>20</y>
+        <width>461</width>
+        <height>91</height>
+       </rect>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>30</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="autoFillBackground">
+       <bool>true</bool>
+      </property>
+      <property name="text">
+       <string>Make sure correct level is set!                                                                    If the simulation level is not compatible with the mosfet level, unexpected behaviour might occur!</string>
+      </property>
+      <property name="scaledContents">
+       <bool>true</bool>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
+      </property>
      </widget>
     </widget>
     <widget class="QWidget" name="tab_5">
@@ -3447,7 +3538,7 @@
           <number>1</number>
          </property>
          <property name="maximum">
-          <number>3</number>
+          <number>40</number>
          </property>
          <property name="value">
           <number>3</number>
@@ -3660,7 +3751,7 @@
         </widget>
        </item>
        <item row="9" column="0" colspan="2">
-        <widget class="QPushButton" name="OutputSimulate_2">
+        <widget class="QPushButton" name="TransferSimulate">
          <property name="font">
           <font>
            <pointsize>12</pointsize>
@@ -3673,6 +3764,52 @@
        </item>
       </layout>
      </widget>
+     <widget class="QLabel" name="label_68">
+      <property name="geometry">
+       <rect>
+        <x>670</x>
+        <y>20</y>
+        <width>461</width>
+        <height>91</height>
+       </rect>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>30</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="autoFillBackground">
+       <bool>true</bool>
+      </property>
+      <property name="text">
+       <string>Make sure correct level is set!                                                                    If the simulation level is not compatible with the mosfet level, unexpected behaviour might occur!</string>
+      </property>
+      <property name="scaledContents">
+       <bool>true</bool>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
+      </property>
+     </widget>
     </widget>
    </widget>
   </widget>
@@ -3681,7 +3818,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1751</width>
+     <width>1755</width>
      <height>22</height>
     </rect>
    </property>

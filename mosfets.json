@@ -1,0 +1,23 @@
+[
+    {
+        "channelLength": 100.0,
+        "channelWidth": 100.0,
+        "cox": -6.2774385622041925e+66,
+        "effectiveDensityOfStatesInConductionBand": 3.2e+19,
+        "effectiveDensityOfStatesInValenceBand": 1.8e+19,
+        "lambda": -6.2774385622041925e+66,
+        "metalWorkFunction": 4.2,
+        "mobility": 450.0,
+        "name": "NMOS--(LEVEL3)",
+        "oxidePermittivity": 3.9,
+        "oxideThickness": 1.2e-06,
+        "oxideTrappedCharge": 10000000000.0,
+        "semiconductorBandgap": 1.12,
+        "semiconductorDopingConcentration": 1e+17,
+        "semiconductorElectronAffinity": 4.05,
+        "semiconductorPermittivity": 11.68,
+        "temperature": 300.0,
+        "type": 78,
+        "vt": -6.2774385622041925e+66
+    }
+]

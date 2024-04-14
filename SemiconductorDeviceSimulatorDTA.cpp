@@ -26,6 +26,10 @@ SemiconductorDeviceSimulatorDTA::SemiconductorDeviceSimulatorDTA(QWidget* parent
     connect(ui->DeleteVgs, &QPushButton::clicked, this, &SemiconductorDeviceSimulatorDTA::on_DeleteVgs_clicked);
     connect(ui->OutputSimulate, &QPushButton::clicked, this, &SemiconductorDeviceSimulatorDTA::on_OutputSimulateButton_clicked);
 
+    // Transfer Simulation Page
+    connect(ui->AddVds, &QPushButton::clicked, this, &SemiconductorDeviceSimulatorDTA::on_AddVds_clicked);
+    connect(ui->DeleteVds, &QPushButton::clicked, this, &SemiconductorDeviceSimulatorDTA::on_DeleteVds_clicked);
+    connect(ui->TransferSimulate, &QPushButton::clicked, this, &SemiconductorDeviceSimulatorDTA::on_TransferSimulateButton_clicked);
 
 
 }
@@ -159,6 +163,52 @@ void SemiconductorDeviceSimulatorDTA::on_SaveMOSFETs_clicked() {
 }
 
 // MOSFET Creation Page
+void SemiconductorDeviceSimulatorDTA::on_DeleteMosfetButton_clicked() {
+    // Get the selected item from the list widget
+    QListWidgetItem* selectedItem = ui->MosfetList->currentItem();
+
+    // Check if an item is selected
+    if (!selectedItem) {
+        QMessageBox::warning(this, "Error", "Please select a MOSFET to delete.");
+        return;
+    }
+
+    // Get the name of the selected MOSFET
+    QString mosfetName = selectedItem->text();
+
+    // Ask for confirmation
+    QMessageBox::StandardButton reply = QMessageBox::question(this, "Confirmation",
+        "Are you sure you want to delete the MOSFET: " + mosfetName + "?",
+        QMessageBox::Yes | QMessageBox::No);
+
+    // Check the user's response
+    if (reply == QMessageBox::Yes) {
+        // User clicked "Yes," so proceed with deleting the MOSFET
+        delete selectedItem;
+        // Delete instance
+        std::string targetName = mosfetName.toStdString();
+        MOSFET* targetMOSFET = MOSFET::getMOSFETByName(targetName);
+        delete targetMOSFET;
+
+        // Remove the corresponding items from MosfetList2 and MosfetList3
+        for (int i = 0; i < ui->MosfetList_2->count(); ++i) {
+            if (ui->MosfetList_2->item(i)->text() == mosfetName) {
+                delete ui->MosfetList_2->takeItem(i);
+                break;
+            }
+        }
+
+        for (int i = 0; i < ui->MosfetList_3->count(); ++i) {
+            if (ui->MosfetList_3->item(i)->text() == mosfetName) {
+                delete ui->MosfetList_3->takeItem(i);
+                break;
+            }
+        }
+    }
+    // If "No" or the dialog is closed, do nothing
+}
+
+
 void SemiconductorDeviceSimulatorDTA::on_SaveMosfetLevel1_clicked() {
     // Retrieve values from input fields
     QString name = ui->MosfetName->text() + "--(LEVEL1)"; // MOSFET Object Name
@@ -267,9 +317,9 @@ void SemiconductorDeviceSimulatorDTA::on_SaveMosfetLevel3_clicked() {
 
     double metalWorkFunction = ui->L3_6->value(); // Metal Work Function
 
-    double oxideThickness = ui->L3_7->value(); // Oxide Thickness
+    double oxideThickness = (ui->L3_7->value()) * pow(10, -7); // Oxide Thickness -> convert from nm to cm
     double oxidePermittivity = ui->L3_8->value(); // Oxide Permittivity
-    double oxideTrappedCharge = ui->L3_9->value(); // Oxide Trapped Charge
+    double oxideTrappedCharge = (ui->L3_9->value()) * pow(10, 9); // Oxide Trapped Charge
 
     double mobility = ui->L3_10->value(); // Mobility
     double semiconductorBandgap = ui->L3_11->value(); // Semiconductor Bandgap
@@ -317,50 +367,6 @@ void SemiconductorDeviceSimulatorDTA::on_SaveMosfetLevel3_clicked() {
     ui->MosfetList_3->addItem(name);
 }
 
-void SemiconductorDeviceSimulatorDTA::on_DeleteMosfetButton_clicked() {
-    // Get the selected item from the list widget
-    QListWidgetItem* selectedItem = ui->MosfetList->currentItem();
-
-    // Check if an item is selected
-    if (!selectedItem) {
-        QMessageBox::warning(this, "Error", "Please select a MOSFET to delete.");
-        return;
-    }
-
-    // Get the name of the selected MOSFET
-    QString mosfetName = selectedItem->text();
-
-    // Ask for confirmation
-    QMessageBox::StandardButton reply = QMessageBox::question(this, "Confirmation",
-        "Are you sure you want to delete the MOSFET: " + mosfetName + "?",
-        QMessageBox::Yes | QMessageBox::No);
-
-    // Check the user's response
-    if (reply == QMessageBox::Yes) {
-        // User clicked "Yes," so proceed with deleting the MOSFET
-        delete selectedItem;
-        // Delete instance
-        std::string targetName = mosfetName.toStdString();
-        MOSFET* targetMOSFET = MOSFET::getMOSFETByName(targetName);
-        delete targetMOSFET;
-
-        // Remove the corresponding items from MosfetList2 and MosfetList3
-        for (int i = 0; i < ui->MosfetList_2->count(); ++i) {
-            if (ui->MosfetList_2->item(i)->text() == mosfetName) {
-                delete ui->MosfetList_2->takeItem(i);
-                break;
-            }
-        }
-
-        for (int i = 0; i < ui->MosfetList_3->count(); ++i) {
-            if (ui->MosfetList_3->item(i)->text() == mosfetName) {
-                delete ui->MosfetList_3->takeItem(i);
-                break;
-            }
-        }
-    }
-    // If "No" or the dialog is closed, do nothing
-}
 
 // Parameter preload Functions
 void SemiconductorDeviceSimulatorDTA::on_LoadMetal_clicked() {
@@ -623,4 +629,27 @@ QListWidgetItem* selectedItem = ui->MosfetList_3->currentItem();
     else {
         return;
     }
+
+    // Specify the directory containing the images
+    QString imageDirectory = ".\\GRAPHS";
+
+    QString latestImage = findLatestImage(imageDirectory);
+    if (latestImage.isEmpty()) {
+        QMessageBox::warning(this, "Error", "No image found in the directory.");
+        return;
+    }
+
+    // Load the image from file
+    QPixmap image(latestImage);
+    if (image.isNull()) {
+        QMessageBox::warning(this, "Error", "Failed to load the image.");
+        return;
+    }
+
+    // Create the popup dialog
+    ImagePopupDialog* dialog = new ImagePopupDialog(this);
+    dialog->setImage(image);
+    dialog->exec();
+    delete dialog; // Ensure cleanup after the dialog is closed
+
 }

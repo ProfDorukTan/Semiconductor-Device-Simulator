@@ -4,7 +4,6 @@
 
 #include "Level3Calculation.h"
 void Vth_calc(MOSFET &mosfet) {
-    //FIXME: ADD TEMPERATURE DEPENDENCY TO N_c AND N_v
     char type = mosfet.getType();
     double phi_m = mosfet.getMetalWorkFunction(), Eg_s = mosfet.getSemiconductorBandgap(),
 		chi_s = mosfet.getSemiconductorElectronAffinity(), N_s = mosfet.getSemiconductorDopingConcentration(),
@@ -15,23 +14,21 @@ void Vth_calc(MOSFET &mosfet) {
     
     double n_i = sqrt(N_c * N_v * pow((temperature/ROOM_TEMPERATURE), 3) * pow(EULERS_NUMBER, ((-1 * Eg_s) / ((THERMAL_VOLTAGE_ROOM_TEMPERATURE * (temperature / ROOM_TEMPERATURE))))));
 
-    if (type == 'N') {
-        double phi_fn = THERMAL_VOLTAGE_ROOM_TEMPERATURE * log(N_s / n_i);
-        double phi_ms = phi_m - ((Eg_s / (2)) + phi_fn + chi_s); 
-        double space_charge = sqrt(abs(4 * epsilon_s * VACUUM_PERMITTIVITY * phi_fn / (ELEMENTARY_CHARGE * N_s)));
-		Vth = phi_ms + 2 * phi_fn + ((t_ox / epsilon_ox) * (abs(ELEMENTARY_CHARGE * N_s * space_charge) - Q_ox));    //phi_ms + 2phi_fn + V_ox
+    double phi_f_shift = THERMAL_VOLTAGE_ROOM_TEMPERATURE * log(N_s / n_i);
+    if (type == 'P') {
+		phi_f_shift = -1 * phi_f_shift;
 	}
-    else if (type == 'P') {// FIXME: Check the equations
-        double phi_fp = THERMAL_VOLTAGE_ROOM_TEMPERATURE * log(n_i / N_s);
-        double phi_ms = phi_m - ((Eg_s / (2)) + phi_fp + chi_s);
-        double space_charge = sqrt(abs(4 * epsilon_s * VACUUM_PERMITTIVITY * phi_fp / (ELEMENTARY_CHARGE * N_s)));
-        Vth = phi_ms + 2 * phi_fp + ((t_ox / epsilon_ox) * (abs(ELEMENTARY_CHARGE * N_s * space_charge) - Q_ox));    //phi_ms + 2phi_fp + V_ox
-    }
+    double phi_ms = phi_m - ((Eg_s / (2)) + phi_f_shift + chi_s);
+    double space_charge = sqrt(abs(4 * epsilon_s * VACUUM_PERMITTIVITY * phi_f_shift / (ELEMENTARY_CHARGE * N_s)));
+    double V_ox = ((t_ox / (epsilon_ox * VACUUM_PERMITTIVITY)) * (abs(ELEMENTARY_CHARGE * N_s * space_charge) - (Q_ox * ELEMENTARY_CHARGE)));
+    
+    Vth = phi_ms + 2 * phi_f_shift + V_ox;
+    
     mosfet.setVt(Vth);
 }
 void Cox_calc(MOSFET &mosfet) {
 	double epsilon_ox = mosfet.getOxidePermittivity(), t_ox = mosfet.getOxideThickness();
-	mosfet.setCox(epsilon_ox / t_ox);
+	mosfet.setCox((epsilon_ox * VACUUM_PERMITTIVITY) / t_ox);
 }
 
 double level3_calc(MOSFET &mosfet , double Vgs , double Vds, double Vt) {

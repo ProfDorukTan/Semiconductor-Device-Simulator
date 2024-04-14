@@ -97,7 +97,7 @@ void TransferSimulation::GraphTransferCurve(int COMPLEXITY) {
     settings->height = imageL;
     settings->autoBoundaries = true;
     settings->title = toVector(title);
-    settings->xLabel = toVector(L"Vds (V)");
+    settings->xLabel = toVector(L"Vgs (V)");
     settings->yLabel = toVector(L"Ids (A)");
 
 // Loop through Params_Vgs_Ids and create ScatterPlotSeries dynamically
@@ -118,7 +118,7 @@ void TransferSimulation::GraphTransferCurve(int COMPLEXITY) {
 
     if(success) {
         std::vector<double> *pngdata = ConvertToPNG(imageReference->image);
-        WriteToFile(pngdata, "OutputCurve");
+        WriteToFile(pngdata, "TransferCurve");
         DeleteImage(imageReference->image);
     } else {
         std::cerr << "Error: ";

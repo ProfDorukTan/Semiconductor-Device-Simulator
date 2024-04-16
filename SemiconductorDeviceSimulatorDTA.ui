@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1755</width>
+    <width>1748</width>
     <height>917</height>
    </rect>
   </property>
@@ -1326,7 +1326,7 @@
             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Generally kept below 10&lt;span style=&quot; vertical-align:super;&quot;&gt;11 &lt;/span&gt;cm&lt;span style=&quot; vertical-align:super;&quot;&gt;-2 &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="text">
-            <string>Dielectric Trapped Charge Density</string>
+            <string>Trapped Charge Density</string>
            </property>
            <property name="scaledContents">
             <bool>true</bool>
@@ -1488,10 +1488,10 @@
             </font>
            </property>
            <property name="toolTip">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:400; text-decoration: underline;&quot;&gt;Common Dielectric Permittivity Values&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:400;&quot;&gt;SiO&lt;/span&gt;&lt;span style=&quot; font-weight:400; vertical-align:sub;&quot;&gt;2&lt;/span&gt;&lt;span style=&quot; font-weight:400;&quot;&gt;: 3.9&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:400; text-decoration: underline;&quot;&gt;Common Dielectric Permittivity Values&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Silicon dioxide ≈ 3.9 &lt;/p&gt;&lt;p&gt;Silicon nitride ≈ 7−9 &lt;/p&gt;&lt;p&gt;Hafnium dioxide ≈ 20−25&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="text">
-            <string>Dielectric Permittivity (Relative)</string>
+            <string>Permittivity (Relative)</string>
            </property>
            <property name="scaledContents">
             <bool>true</bool>
@@ -1575,10 +1575,10 @@
               <double>1000000.000000000000000</double>
              </property>
              <property name="stepType">
-              <enum>QAbstractSpinBox::DefaultStepType</enum>
+              <enum>QAbstractSpinBox::AdaptiveDecimalStepType</enum>
              </property>
              <property name="value">
-              <double>1000.000000000000000</double>
+              <double>100.000000000000000</double>
              </property>
             </widget>
            </item>
@@ -1934,7 +1934,7 @@
             </font>
            </property>
            <property name="text">
-            <string>Dielectric Thickness</string>
+            <string>Thickness</string>
            </property>
            <property name="scaledContents">
             <bool>true</bool>
@@ -2065,7 +2065,7 @@
             </font>
            </property>
            <property name="text">
-            <string>Semiconductor Permittivity (Relative)</string>
+            <string>Permittivity (Relative)</string>
            </property>
            <property name="scaledContents">
             <bool>true</bool>
@@ -2278,7 +2278,7 @@
             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Semiconductor energy bandgap depends on factors such as temperature, doping and pressure. Default values are for intrinsic semiconductors at 300K.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="text">
-            <string>Semiconductor Bandgap at 300 K</string>
+            <string>Bandgap at 300 K</string>
            </property>
            <property name="scaledContents">
             <bool>true</bool>
@@ -2346,7 +2346,7 @@
             </font>
            </property>
            <property name="text">
-            <string>Semiconductor Electron Affinity</string>
+            <string>Electron Affinity</string>
            </property>
            <property name="scaledContents">
             <bool>true</bool>
@@ -2383,7 +2383,7 @@
             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:400; text-decoration: underline;&quot;&gt;Typical Values&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:400;&quot;&gt;Si: 10&lt;/span&gt;&lt;span style=&quot; font-weight:400; vertical-align:super;&quot;&gt;14&lt;/span&gt;&lt;span style=&quot; font-weight:400;&quot;&gt;-10&lt;/span&gt;&lt;span style=&quot; font-weight:400; vertical-align:super;&quot;&gt;17&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="text">
-            <string>Semiconductor Doping Concentration</string>
+            <string>Majority Carrier Concentration</string>
            </property>
            <property name="scaledContents">
             <bool>true</bool>
@@ -2843,52 +2843,52 @@
          </item>
          <item>
           <property name="text">
+           <string>0.2</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>0.4</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>0.6</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>0.8</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
            <string>1</string>
           </property>
          </item>
          <item>
           <property name="text">
+           <string>1.2</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>1.4</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>1.6</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>1.8</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
            <string>2</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>3</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>4</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>5</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>6</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>7</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>8</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>9</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>10</string>
           </property>
          </item>
         </widget>
@@ -3818,7 +3818,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1755</width>
+     <width>1748</width>
      <height>22</height>
     </rect>
    </property>

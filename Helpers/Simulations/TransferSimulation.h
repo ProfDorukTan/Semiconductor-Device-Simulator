@@ -28,7 +28,6 @@ public:
 
 
 private:
-    bool simulation_complete_;
     MOSFET mosfet_;
     double Vmin_, Vmax_, Vstep_;
     std::unordered_map<double, std::vector<double>> Params_Vds_Ids_;

@@ -185,8 +185,6 @@ void MOSFET::setEffectiveDensityOfStatesInValenceBand(double EffectiveDensityOfS
 	MOSFET::EffectiveDensityOfStatesInValenceBand = EffectiveDensityOfStatesInValenceBand;
 }
 
-
-
 // Definition of the static member variable
 std::vector<MOSFET*> MOSFET::mosfets;
 void MOSFET::addMOSFET(MOSFET *mosfet) {

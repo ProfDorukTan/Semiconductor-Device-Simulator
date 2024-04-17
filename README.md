@@ -18,13 +18,7 @@ This is a simple simulator for semiconductor devices. It is based on the drift-d
 
 	
 **NOTES**
-	- Program should be dumbproof
-	- Flowchart for the program
 
 
 **Dissertation To-do**
-	- How did you implement software
-	- What is the novel thing about this software
-	- Why would you use it (for whom)
 	- mention u published in journal aybuke 
-	- make font bigger

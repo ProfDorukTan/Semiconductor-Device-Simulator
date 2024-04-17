@@ -74,6 +74,7 @@ public:
     double getEffectiveDensityOfStatesInValenceBand() const;
     void setEffectiveDensityOfStatesInValenceBand(double effectiveDensityOfStatesInValenceBand);
 
+
 private:
     // Static vector to store instances
     static std::vector<MOSFET*> mosfets;
@@ -98,7 +99,6 @@ private:
     double Temperature;
     double EffectiveDensityOfStatesInConductionBand;
     double EffectiveDensityOfStatesInValenceBand;
-
     
     //Additional required parameters for level2 simulation
     double Lambda;  //Channel length modulation parameter - empirical

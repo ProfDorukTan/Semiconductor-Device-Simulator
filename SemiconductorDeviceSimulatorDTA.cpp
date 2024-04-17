@@ -321,7 +321,7 @@ void SemiconductorDeviceSimulatorDTA::on_SaveMosfetLevel3_clicked() {
     double oxidePermittivity = ui->L3_8->value(); // Oxide Permittivity
     double oxideTrappedCharge = (ui->L3_9->value()) * pow(10, 9); // Oxide Trapped Charge
 
-    double mobility = ui->L3_10->value(); // Mobility
+    double mobility = ui->L3_10->value(); // Majority Mobility
     double semiconductorBandgap = ui->L3_11->value(); // Semiconductor Bandgap
     double effectiveDensityOfStatesInConductionBand = (ui->L3_12->value()) * pow(10, 19); // Effective Density of States in Conduction Band
     double effectiveDensityOfStatesInValenceBand = (ui->L3_13->value()) * pow(10, 19); // Effective Density of States in Valence Band
@@ -356,7 +356,7 @@ void SemiconductorDeviceSimulatorDTA::on_SaveMosfetLevel3_clicked() {
     
 
     // Create an instance of MOSFET for Level 3
-    MOSFET* mosfet = new MOSFET(name.toStdString(), channel.at(0).toLatin1(), mobility, w, l, metalWorkFunction, 
+    MOSFET* mosfet = new MOSFET(name.toStdString(), channel.at(0).toLatin1(), mobility, w, l, metalWorkFunction,
         semiconductorBandgap, semiconductorElectronAffinity, semiconductorDopingConcentration, semiconductorPermittivity, 
         oxideThickness, oxidePermittivity, oxideTrappedCharge, temperature, effectiveDensityOfStatesInConductionBand, effectiveDensityOfStatesInValenceBand);
     MOSFET::addMOSFET(mosfet);
@@ -385,7 +385,7 @@ void SemiconductorDeviceSimulatorDTA::on_LoadSemiconductor_clicked() {
             QMessageBox::warning(this, "Error", "Channel and bulk must be different");
             return; // Stop further processing
         }
-        ui->L3_10->setValue(SILICON_ELECTRON_MOBILITY);
+        ui->L3_10->setValue(SILICON_HOLE_MOBILITY);
         ui->L3_11->setValue(SILICON_BANDGAP);
         ui->L3_12->setValue(SILICON_EFFECTIVE_DENSITY_OF_STATES_IN_CONDUCTION_BAND);
         ui->L3_13->setValue(SILICON_EFFECTIVE_DENSITY_OF_STATES_IN_VALANCE_BAND);
@@ -397,7 +397,7 @@ void SemiconductorDeviceSimulatorDTA::on_LoadSemiconductor_clicked() {
             QMessageBox::warning(this, "Error", "Channel and bulk must be different");
             return; // Stop further processing
         }
-        ui->L3_10->setValue(SILICON_HOLE_MOBILITY);
+        ui->L3_10->setValue(SILICON_ELECTRON_MOBILITY);
         ui->L3_11->setValue(SILICON_BANDGAP);
         ui->L3_12->setValue(SILICON_EFFECTIVE_DENSITY_OF_STATES_IN_CONDUCTION_BAND);
         ui->L3_13->setValue(SILICON_EFFECTIVE_DENSITY_OF_STATES_IN_VALANCE_BAND);
@@ -409,7 +409,7 @@ void SemiconductorDeviceSimulatorDTA::on_LoadSemiconductor_clicked() {
             QMessageBox::warning(this, "Error", "Channel and bulk must be different");
             return; // Stop further processing
         }
-        ui->L3_10->setValue(GERMANIUM_ELECTRON_MOBILITY);
+        ui->L3_10->setValue(GERMANIUM_HOLE_MOBILITY);
         ui->L3_11->setValue(GERMANIUM_BANDGAP);
         ui->L3_12->setValue(GERMANIUM_EFFECTIVE_DENSITY_OF_STATES_IN_CONDUCTION_BAND);
         ui->L3_13->setValue(GERMANIUM_EFFECTIVE_DENSITY_OF_STATES_IN_VALANCE_BAND);
@@ -421,7 +421,7 @@ void SemiconductorDeviceSimulatorDTA::on_LoadSemiconductor_clicked() {
             QMessageBox::warning(this, "Error", "Channel and bulk must be different");
             return; // Stop further processing
         }
-        ui->L3_10->setValue(GERMANIUM_HOLE_MOBILITY);
+        ui->L3_10->setValue(GERMANIUM_ELECTRON_MOBILITY);
         ui->L3_11->setValue(GERMANIUM_BANDGAP);
         ui->L3_12->setValue(GERMANIUM_EFFECTIVE_DENSITY_OF_STATES_IN_CONDUCTION_BAND);
         ui->L3_13->setValue(GERMANIUM_EFFECTIVE_DENSITY_OF_STATES_IN_VALANCE_BAND);
@@ -433,7 +433,7 @@ void SemiconductorDeviceSimulatorDTA::on_LoadSemiconductor_clicked() {
             QMessageBox::warning(this, "Error", "Channel and bulk must be different");
             return; // Stop further processing
         }
-        ui->L3_10->setValue(GALLIUM_ARSENIDE_ELECTRON_MOBILITY);
+        ui->L3_10->setValue(GALLIUM_ARSENIDE_HOLE_MOBILITY);
         ui->L3_11->setValue(GALLIUM_ARSENIDE_BANDGAP);
         ui->L3_12->setValue(GALLIUM_ARSENIDE_EFFECTIVE_DENSITY_OF_STATES_IN_CONDUCTION_BAND);
         ui->L3_13->setValue(GALLIUM_ARSENIDE_EFFECTIVE_DENSITY_OF_STATES_IN_VALANCE_BAND);
@@ -445,7 +445,7 @@ void SemiconductorDeviceSimulatorDTA::on_LoadSemiconductor_clicked() {
             QMessageBox::warning(this, "Error", "Channel and bulk must be different");
             return; // Stop further processing
         }
-        ui->L3_10->setValue(GALLIUM_ARSENIDE_HOLE_MOBILITY);
+        ui->L3_10->setValue(GALLIUM_ARSENIDE_ELECTRON_MOBILITY);
         ui->L3_11->setValue(GALLIUM_ARSENIDE_BANDGAP);
         ui->L3_12->setValue(GALLIUM_ARSENIDE_EFFECTIVE_DENSITY_OF_STATES_IN_CONDUCTION_BAND);
         ui->L3_13->setValue(GALLIUM_ARSENIDE_EFFECTIVE_DENSITY_OF_STATES_IN_VALANCE_BAND);

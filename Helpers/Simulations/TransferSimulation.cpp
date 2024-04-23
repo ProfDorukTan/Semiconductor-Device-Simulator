@@ -165,14 +165,14 @@ void TransferSimulation::GraphTransferCurveLog(int COMPLEXITY) {
     settings->autoBoundaries = true;
     settings->title = toVector(title);
     settings->xLabel = toVector(L"Vgs (V)");
-    settings->yLabel = toVector(L"Ids (A)");
+    settings->yLabel = toVector(L"log(Ids) (A)");
 
     // Convert the Ids values to logarithmic scale
     for (auto& vds_pair : Params_Vds_Ids_) {
         // Transform the Ids values to logarithmic scale
         for (double& Id : vds_pair.second) {
             if (Id <= 0) {
-				Id = 1e-12;
+				Id = 1e-15;
 			}
             Id = std::log10(Id);
         }

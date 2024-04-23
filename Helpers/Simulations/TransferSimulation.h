@@ -8,6 +8,7 @@
 #include <iostream>
 #include <vector>
 #include <unordered_map>
+#include <cmath>
 #include "../MOSFET/MOSFET.h"
 #include "../Level1/Level1Calculation.h"
 #include "../Level2/Level2Calculation.h"
@@ -25,6 +26,7 @@ public:
     //SIMULATION
     void GenerateTransferCurve(int COMPLEXITY);
     void GraphTransferCurve(int COMPLEXITY);
+    void GraphTransferCurveLog(int COMPLEXITY);
 
 
 private:

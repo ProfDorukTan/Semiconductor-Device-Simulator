@@ -12,6 +12,7 @@
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QFileInfoList>
+#include <QCheckBox>
 
 #include <fstream>
 

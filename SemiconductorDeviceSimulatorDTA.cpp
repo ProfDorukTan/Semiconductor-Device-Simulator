@@ -624,7 +624,13 @@ QListWidgetItem* selectedItem = ui->MosfetList_3->currentItem();
         std::string targetName = mosfetName.toStdString();
         MOSFET* targetMOSFET = MOSFET::getMOSFETByName(targetName);
         TransferSimulation output(*targetMOSFET, Vmin, Vmax, Vstep, vdsValues);
-        output.GraphTransferCurve(level);
+
+        if (ui->LogCheck->isChecked()) {
+            output.GraphTransferCurveLog(level);    //Logarithmic scale 
+        }
+        else {
+            output.GraphTransferCurve(level);       //Linear scale
+        }
     }
     else {
         return;
@@ -651,5 +657,6 @@ QListWidgetItem* selectedItem = ui->MosfetList_3->currentItem();
     dialog->setImage(image);
     dialog->exec();
     delete dialog; // Ensure cleanup after the dialog is closed
+
 
 }

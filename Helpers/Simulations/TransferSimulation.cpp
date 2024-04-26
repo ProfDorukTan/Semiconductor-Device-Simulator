@@ -3,8 +3,8 @@
 //
 
 #include "TransferSimulation.h"
-#include <iomanip>
-#include <algorithm>
+
+
 
 TransferSimulation::TransferSimulation(MOSFET &mosfet_par, double Vmin_var, double Vmax_var, double Vstep_var, const std::vector<double> &params_Vds) :
         mosfet_(mosfet_par), Vmin_(Vmin_var), Vmax_(Vmax_var), Vstep_(Vstep_var){
@@ -20,6 +20,19 @@ TransferSimulation::TransferSimulation(MOSFET &mosfet_par, double Vmin_var, doub
         Vds3 ->  Ids1, Ids2, Ids3, ...
         ...
     */
+}
+
+void TransferSimulation::writeMapToFile(const std::unordered_map<double, std::vector<double>>& map, const std::string& filename){
+    std::ofstream outputFile(filename);
+    if (outputFile.is_open()) {
+        for (const auto& entry : map) {
+            outputFile << "Vds: " << entry.first << "\n";
+            for (const auto& value : entry.second) {
+                outputFile << "  Ids: " << value << "\n";
+            }
+        }
+        outputFile.close();
+    }
 }
 
 //GETTER FUNCTIONS
@@ -61,6 +74,8 @@ void TransferSimulation::GenerateTransferCurve(int COMPLEXITY) {
         default:
             throw std::invalid_argument("Invalid Complexity Level");
     }
+
+    writeMapToFile(Params_Vds_Ids_, ".\\DATA\\TransferCurveData.txt");
 }
 
 void TransferSimulation::GraphTransferCurve(int COMPLEXITY) {

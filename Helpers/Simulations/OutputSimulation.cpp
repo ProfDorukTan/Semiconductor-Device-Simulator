@@ -3,8 +3,7 @@
 //
 
 #include "OutputSimulation.h"
-#include <iomanip>
-#include <algorithm>
+
 
 OutputSimulation::OutputSimulation(MOSFET &mosfet_par, double Vmin_var, double Vmax_var, double Vstep_var, const std::vector<double> &params_Vgs) :
         mosfet_(mosfet_par), Vmin_(Vmin_var), Vmax_(Vmax_var), Vstep_(Vstep_var){
@@ -20,6 +19,19 @@ OutputSimulation::OutputSimulation(MOSFET &mosfet_par, double Vmin_var, double V
         Vgs3 ->  Ids1, Ids2, Ids3, ...
         ...
     */
+}
+
+void OutputSimulation::writeMapToFile(const std::unordered_map<double, std::vector<double>>& map, const std::string& filename) {
+    std::ofstream outputFile(filename);
+    if (outputFile.is_open()) {
+        for (const auto& entry : map) {
+            outputFile << "Vgs: " << entry.first << "\n";
+            for (const auto& value : entry.second) {
+                outputFile << "  Ids: " << value << "\n";
+            }
+        }
+        outputFile.close();
+    }
 }
 
 //GETTER FUNCTIONS
@@ -61,6 +73,7 @@ void OutputSimulation::GenerateOutputCurve(int COMPLEXITY) {
         default:
             throw std::invalid_argument("Invalid Complexity Level");
     }
+    writeMapToFile(Params_Vgs_Ids_, ".\\DATA\\OutputCurveData.txt");
 }
 
 void OutputSimulation::GraphOutputCurve(int COMPLEXITY) {

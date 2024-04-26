@@ -8,6 +8,9 @@
 #include <iostream>
 #include <vector>
 #include <unordered_map>
+#include <iomanip>
+#include <algorithm>
+#include <fstream>
 #include "../MOSFET/MOSFET.h"
 #include "../Level1/Level1Calculation.h"
 #include "../Level2/Level2Calculation.h"
@@ -26,6 +29,7 @@ public:
     void GenerateOutputCurve(int COMPLEXITY);
     void GraphOutputCurve(int COMPLEXITY);
 
+    void writeMapToFile(const std::unordered_map<double, std::vector<double>>& map, const std::string& filename);
 
 private:
     MOSFET mosfet_;

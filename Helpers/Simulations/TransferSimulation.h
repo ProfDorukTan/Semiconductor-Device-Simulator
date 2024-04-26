@@ -9,6 +9,9 @@
 #include <vector>
 #include <unordered_map>
 #include <cmath>
+#include <iomanip>
+#include <algorithm>
+#include <fstream>
 #include "../MOSFET/MOSFET.h"
 #include "../Level1/Level1Calculation.h"
 #include "../Level2/Level2Calculation.h"
@@ -27,7 +30,8 @@ public:
     void GenerateTransferCurve(int COMPLEXITY);
     void GraphTransferCurve(int COMPLEXITY);
     void GraphTransferCurveLog(int COMPLEXITY);
-
+       
+    void writeMapToFile(const std::unordered_map<double, std::vector<double>>& map, const std::string& filename);
 
 private:
     MOSFET mosfet_;

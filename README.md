@@ -2,11 +2,13 @@
 
 ## Introduction
 
+Program might be broken, if you would like to use it you can contact me. I am writing this because I see it getting checked once in a while.
+
 This is a simulator software repository for semiconductor devices and is implemented in C++. The simulator is designed to be easy to use and to be easily extendable. It is intended for use in teaching environments but can also be utilized for research purposes.
 
 ## Referencing
 
-This work is described in the dissertation written by Doruk Tan Atila, titled "A Novel Approach to Modelling of MOS Devices – Development of a Simulation Tool for MOSFET Analysis". The dissertation is available in the repository.
+This work is described in the dissertation written by Doruk Tan Atila, titled "A Novel Approach to Modelling of MOS Devices â€“ Development of a Simulation Tool for MOSFET Analysis". The dissertation is available in the repository.
 
 ## How to Add a New Model
 
